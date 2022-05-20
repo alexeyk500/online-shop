@@ -3,13 +3,26 @@ services:
   db:
     image: postgres:14.2
     restart: always
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_USER=a500
       - POSTGRES_PASSWORD=secret
-    ports:
-      - '5432:5432'
     volumes:
       - db:/var/lib/postgresql/data
+  server:
+    build: ./server
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - DB_NAME=postgres
+      - DB_USER=a500
+      - DB_PASSWORD=secret
+      - DB_HOST=db
+      - DB_PORT=5432
+      - SECRET_KEY=Secret_Key_123
 volumes:
   db:
     driver: local
