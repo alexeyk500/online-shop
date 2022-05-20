@@ -23,6 +23,10 @@ services:
       - DB_HOST=db
       - DB_PORT=5432
       - SECRET_KEY=Secret_Key_123
+    volumes:
+      - server_static:/server/static
 volumes:
   db:
+    driver: local
+  server_static:
     driver: local
