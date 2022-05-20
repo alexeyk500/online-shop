@@ -1,8 +1,7 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
+.idea
+/node_modules
 /server/node_modules
-/server/static/*.*
 /.pnp
 .pnp.js
 
@@ -18,9 +17,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-.idea/workspace.xml
-.idea/usage.statistics.xml
-.idea/shelf
-.idea/dataSources
-.idea/dataSources.*
