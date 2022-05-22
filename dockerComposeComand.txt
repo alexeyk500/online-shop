@@ -1,8 +1,5 @@
-// Сборка одиночного контенера сервера
-docker build . -t serverimage:first
-
-//Запуск одиночного контенера сервера
-docker run -d -p 5000:5000 --rm --name server serverimage:first
+// Пересобрать и запустить контенеры в docker-compose.yml
+docker-compose up --build
 
 //Удалить все остановленнные контейнеры
 docker rm $(docker ps -a -f status=exited -q)
@@ -26,7 +23,6 @@ docker container prune
 docker image prune
 
 //Get into container
-
 docker exec -it <mycontainer> bash
 
 

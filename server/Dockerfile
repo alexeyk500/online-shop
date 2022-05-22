@@ -1,16 +1,14 @@
 FROM node
 
-WORKDIR /server
 RUN mkdir -p /server/static
+
+WORKDIR /server
 
 COPY package*.json ./
 
 RUN npm install
 
 COPY . .
-
-RUN npm uninstall bcrypt
-RUN npm install bcrypt
 
 ENV PORT=5000
 
