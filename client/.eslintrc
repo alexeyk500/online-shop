@@ -1,0 +1,31 @@
+{
+  "extends": [
+    "react-app",
+    "react-app/jest",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:import/typescript",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2022,
+    "sourceType": "module"
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "es2021": true
+  },
+  "rules": {
+    "prefer-const": "warn",
+    "quotes": ["warn","single"],
+    "jsx-quotes": ["warn", "prefer-double"],
+    "indent": ["warn", 2],
+    "max-len": ["warn", {"code": 120}],
+    "semi": ["warn", "always"],
+    "import/order": "warn"
+  }
+}

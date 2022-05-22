@@ -20,4 +20,4 @@ module.exports = function (role) {
       res.status(401).json({ message: 'user is not authorized' });
     }
   };
-}
+};
