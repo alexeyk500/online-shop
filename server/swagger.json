@@ -1,0 +1,24 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "online-shop API",
+    "description": "swagger online-shop API",
+    "version": "0.0.1"
+  },
+  "host": "localhost:5000/api",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/test": {
+      "get": {
+        "description": "Test is server working",
+        "responses": {
+          "200": {
+            "description": "description - Hello from server"
+          }
+        }
+      }
+    }
+  }
+}

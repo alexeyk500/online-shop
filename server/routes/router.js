@@ -12,7 +12,7 @@ router.use('/brand', brandRouter);
 router.use('/device', deviceRouter);
 
 router.use('/test', (req, res) => {
-  res.json({ message: 'hello from server' });
+  res.json({ message: 'Hello from server' });
 });
 
 module.exports = router;
