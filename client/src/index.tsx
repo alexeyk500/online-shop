@@ -10,6 +10,8 @@ import './index.css';
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 
+export const TOKEN_NAME = 'a500ShopToken';
+
 root.render(
   <BrowserRouter>
     <Provider store={store}>

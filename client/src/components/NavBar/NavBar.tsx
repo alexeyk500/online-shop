@@ -1,11 +1,26 @@
-import React from 'react';
-import {AppBar, Toolbar, Typography, Button, Container} from '@mui/material';
-import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../utils/hooks';
-import { selectIsAuth } from '../../store/userSlice';
+import React, { useEffect } from 'react';
+import { AppBar, Toolbar, Typography, Button, Container } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../utils/hooks';
+import { logoutUser, selectIsAuth } from '../../store/userSlice';
 
 const NavBar: React.FC = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const isAuth = useAppSelector(selectIsAuth);
+
+  useEffect(() => {
+    isAuth && navigate('/');
+  }, [isAuth, navigate]);
+
+  const onClickLogin = () => {
+    navigate('/auth');
+  };
+
+  const onClickLogout = () => {
+    dispatch(logoutUser());
+    navigate('/');
+  };
 
   return (
     <AppBar position="static">
@@ -17,18 +32,18 @@ const NavBar: React.FC = () => {
             </Link>
           </Typography>
           {isAuth ? (
-            <Button color="inherit" variant="outlined">
-              Войти
-            </Button>
-          ) : (
             <>
               <Button color="inherit" variant="outlined" sx={{ mr: 2 }}>
                 Админ Панель
               </Button>
-              <Button color="inherit" variant="outlined">
+              <Button color="inherit" variant="outlined" onClick={onClickLogout}>
                 Выйти
               </Button>
             </>
+          ) : (
+            <Button color="inherit" variant="outlined" onClick={onClickLogin}>
+              Войти
+            </Button>
           )}
         </Toolbar>
       </Container>
