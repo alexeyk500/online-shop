@@ -1,9 +1,10 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 import { serverApi } from '../api/serverApi';
 import { TOKEN_NAME } from '../index';
 import { isError, showError } from './errorHelper';
-import { PostLoginServerType } from '../types/serverTypes';
+import { PostLoginServerType, PostRegistrationServerType } from '../types/serverTypes';
+import {AxiosError} from "axios";
 
 export interface UserState {
   isLoading: boolean;
@@ -27,11 +28,23 @@ export const userLoginThunk = createAsyncThunk<
   PostLoginServerType,
   { email: string; password: string },
   { rejectValue: string }
->('user/loginUser', async ({ email, password }, { rejectWithValue }) => {
+>('user/LoginThunk', async ({ email, password }, { rejectWithValue }) => {
   try {
     return await serverApi.userLogin({ email, password });
   } catch (e) {
-    return rejectWithValue('Server error - login User');
+    return rejectWithValue('Login User Error\n' + JSON.stringify((e as AxiosError).response?.data));
+  }
+});
+
+export const userRegistrationThunk = createAsyncThunk<
+  PostRegistrationServerType,
+  { email: string; password: string; role?: string },
+  { rejectValue: string }
+>('user/RegistrationThunk', async ({ email, password, role }, { rejectWithValue }) => {
+  try {
+    return await serverApi.userRegistration({ email, password, role });
+  } catch (e) {
+    return rejectWithValue('Registration User Error\n' + JSON.stringify((e as AxiosError).response?.data));
   }
 });
 
@@ -50,7 +63,7 @@ export const userSlice = createSlice({
       .addCase(userLoginThunk.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(userLoginThunk.fulfilled, (state, action) => {
+      .addMatcher(isAnyOf(userLoginThunk.fulfilled, userRegistrationThunk.fulfilled), (state, action) => {
         const token = action.payload.token;
         localStorage.setItem(TOKEN_NAME, token);
         state.isAuth = true;

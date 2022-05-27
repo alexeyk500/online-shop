@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAppDispatch } from '../../utils/hooks';
-import { userLoginThunk } from '../../store/userSlice';
+import { userLoginThunk, userRegistrationThunk } from '../../store/userSlice';
 import { Button, Card, CardActions, CardContent, Container, TextField, Typography } from '@mui/material';
 
 const AuthPage: React.FC = () => {
   const dispatch = useAppDispatch();
 
+  const [isRegistrationForm, setIsRegistrationForm] = useState(false);
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const email = (e.currentTarget.elements.namedItem('email') as HTMLInputElement).value;
     const password = (e.currentTarget.elements.namedItem('password') as HTMLInputElement).value;
-    dispatch(userLoginThunk({ email, password }));
+    if (isRegistrationForm) {
+      dispatch(userRegistrationThunk({ email, password, role: 'ADMIN' }));
+    } else {
+      dispatch(userLoginThunk({ email, password }));
+    }
+  };
+
+  const onClickAuthAndRegistration = () => {
+    setIsRegistrationForm((prev) => !prev);
   };
 
   return (
@@ -28,7 +38,7 @@ const AuthPage: React.FC = () => {
         <Card sx={{ minWidth: 450, boxShadow: 20 }}>
           <CardContent>
             <Typography variant={'h4'} color="text.secondary" align={'center'} gutterBottom>
-              Авторизация
+              {isRegistrationForm ? 'Регистрация' : 'Авторизация'}
             </Typography>
             <TextField fullWidth label="введите E-mail" id="email" sx={{ mb: 2 }} />
             <TextField
@@ -41,9 +51,34 @@ const AuthPage: React.FC = () => {
               }}
             />
           </CardContent>
-          <CardActions sx={{ justifyContent: 'center' }}>
-            <Button variant={'outlined'} sx={{ mb: 1 }} type={'submit'}>
-              Войти
+          <CardActions sx={{ justifyContent: 'space-between' }}>
+            <div>
+              <Typography
+                variant={'body2'}
+                color="text.secondary"
+                align={'left'}
+                sx={{ display: 'inline-block', mr: 1 }}
+              >
+                {isRegistrationForm ? 'Есть Аккаунт?' : 'Нет Аккаунта?'}
+              </Typography>
+              <Typography
+                variant={'body2'}
+                color="#1976d2"
+                align={'left'}
+                sx={{
+                  display: 'inline-block',
+                  '&:hover': {
+                    textDecoration: 'underline',
+                    cursor: 'pointer',
+                  },
+                }}
+                onClick={onClickAuthAndRegistration}
+              >
+                {isRegistrationForm ? 'Авторизуйся!' : 'Зарегестрируйся!'}
+              </Typography>
+            </div>
+            <Button variant={'outlined'} sx={{ mb: 1, mr: 1 }} type={'submit'}>
+              {isRegistrationForm ? 'Регистрация' : 'Войти'}
             </Button>
           </CardActions>
         </Card>
