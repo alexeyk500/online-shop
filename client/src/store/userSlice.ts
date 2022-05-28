@@ -4,7 +4,7 @@ import { serverApi } from '../api/serverApi';
 import { TOKEN_NAME } from '../index';
 import { isError, showError } from './errorHelper';
 import { PostLoginServerType, PostRegistrationServerType } from '../types/serverTypes';
-import {AxiosError} from "axios";
+import { AxiosError } from 'axios';
 
 export interface UserState {
   isLoading: boolean;
