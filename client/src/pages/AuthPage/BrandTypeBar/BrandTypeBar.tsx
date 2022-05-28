@@ -1,19 +1,16 @@
 import React from 'react';
 import { Box, Divider, List, Typography } from '@mui/material';
-import { useAppSelector } from '../../../utils/hooks';
-import { selectorTypes } from '../../../store/deviceSlice';
-import { TypeType } from '../../../types/types';
+import { BrandType, TypeType } from '../../../types/types';
 import TypeItem from './TypeItem/TypeItem';
 
-const TypeBar: React.FC = () => {
-  const types = useAppSelector(selectorTypes);
+type PropsType = {
+  title: string;
+  items: TypeType[] | BrandType[];
+  selectedItem: TypeType | BrandType | undefined;
+  onSelectItem: (item: TypeType | BrandType) => void;
+};
 
-  const [selectedItem, setSelectedItem] = React.useState(types[0] ?? undefined);
-
-  const onClickItem = (item: TypeType) => {
-    setSelectedItem(item);
-  };
-
+const BrandTypeBar: React.FC<PropsType> = ({ title, items, selectedItem, onSelectItem }) => {
   return (
     <Box
       sx={{
@@ -30,16 +27,16 @@ const TypeBar: React.FC = () => {
         p={1}
         sx={{ display: 'inline-block', width: '100%' }}
       >
-        Типы устройств
+        {title}
       </Typography>
       <Divider />
       <List component="nav" aria-label="main mailbox folders">
-        {types.map((item) => (
-          <TypeItem item={item} isSelect={item.id === selectedItem.id} onClickItem={onClickItem} />
+        {items.map((item) => (
+          <TypeItem item={item} isSelect={item.id === (selectedItem && selectedItem.id)} onSelectItem={onSelectItem} />
         ))}
       </List>
     </Box>
   );
 };
 
-export default TypeBar;
+export default BrandTypeBar;

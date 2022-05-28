@@ -1,10 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 import { BrandType, DeviceType, TypeType } from '../types/types';
 
 export interface DevicesState {
   types: TypeType[];
+  selectedType: TypeType | undefined;
   brands: BrandType[];
+  selectedBrand: BrandType | undefined;
   devices: DeviceType[];
 }
 
@@ -18,6 +20,7 @@ const initialState: DevicesState = {
     { id: '1', name: 'Apple' },
     { id: '2', name: 'Samsung' },
     { id: '3', name: 'Рубин' },
+    { id: '4', name: 'Lenovo' },
   ],
   devices: [
     {
@@ -93,16 +96,29 @@ const initialState: DevicesState = {
       brandId: '2',
     },
   ],
+  selectedType: undefined,
+  selectedBrand: undefined,
 };
 
 export const devicesSlice = createSlice({
   name: 'devicesSlice',
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedType: (state, action: PayloadAction<TypeType>) => {
+      state.selectedType = action.payload;
+    },
+    setSelectedBrand: (state, action: PayloadAction<BrandType>) => {
+      state.selectedBrand = action.payload;
+    },
+  },
 });
 
+export const { setSelectedType, setSelectedBrand } = devicesSlice.actions;
+
 export const selectorTypes = (state: RootState) => state.devices.types;
+export const selectorSelectedType = (state: RootState) => state.devices.selectedType;
 export const selectorBrands = (state: RootState) => state.devices.brands;
+export const selectorSelectedBrand = (state: RootState) => state.devices.selectedBrand;
 export const selectorDevices = (state: RootState) => state.devices.devices;
 
 export default devicesSlice.reducer;

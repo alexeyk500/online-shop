@@ -1,14 +1,14 @@
 import React from 'react';
 import { ListItemButton, ListItemText } from '@mui/material';
-import { TypeType } from '../../../../types/types';
+import { BrandType, TypeType } from '../../../../types/types';
 
 type PropsType = {
-  item: TypeType;
+  item: TypeType | BrandType;
   isSelect: boolean;
-  onClickItem: (item: TypeType) => void;
+  onSelectItem: (item: TypeType) => void;
 };
 
-const TypeItem: React.FC<PropsType> = ({ item, isSelect, onClickItem }) => {
+const TypeItem: React.FC<PropsType> = ({ item, isSelect, onSelectItem }) => {
   return (
     <ListItemButton
       selected={isSelect}
@@ -26,7 +26,7 @@ const TypeItem: React.FC<PropsType> = ({ item, isSelect, onClickItem }) => {
         borderRadius: '6px',
       }}
       onClick={() => {
-        onClickItem(item);
+        onSelectItem(item);
       }}
     >
       <ListItemText primary={item.name} />
