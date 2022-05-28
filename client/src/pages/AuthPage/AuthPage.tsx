@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAppDispatch } from '../../utils/hooks';
 import { userLoginThunk, userRegistrationThunk } from '../../store/userSlice';
-import { Button, Card, CardActions, CardContent, Container, TextField, Typography } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, TextField, Typography } from '@mui/material';
 
 const AuthPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -24,14 +24,12 @@ const AuthPage: React.FC = () => {
   };
 
   return (
-    <Container
-      maxWidth={'xl'}
+    <Box
       sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         height: 'calc(100vh - 64px)',
-        backgroundColor: '#fafafa',
       }}
     >
       <form onSubmit={onSubmit}>
@@ -83,7 +81,7 @@ const AuthPage: React.FC = () => {
           </CardActions>
         </Card>
       </form>
-    </Container>
+    </Box>
   );
 };
 
