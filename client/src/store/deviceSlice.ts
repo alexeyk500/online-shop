@@ -27,7 +27,7 @@ const initialState: DevicesState = {
       id: '1',
       name: 'IPhone7-Plus',
       price: '55000',
-      img: 'https://www.google.com/search?q=%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D0%BA%D0%B8+iphone+7+plus&source=lnms&tbm=isch&sa=X&ved=2ahUKEwi_uvONpv33AhWVvIsKHedACgQQ_AUoAXoECAEQAw&biw=2048&bih=1041&dpr=2#imgrc=wkty_uXE9AugeM',
+      img: 'https://media.istockphoto.com/photos/iphone-7-picture-id1266445027?k=20&m=1266445027&s=612x612&w=0&h=fmO4VI3w_FXH3epKjgWjpep_Or_kCCTxMg_fAoz1GBQ=',
       rating: '5',
       typeId: '1',
       brandId: '1',
@@ -36,7 +36,7 @@ const initialState: DevicesState = {
       id: '2',
       name: 'IPhone12',
       price: '120000',
-      img: 'https://www.google.com/search?q=Iphone+12&hl=ru&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiKsonppv33AhXWgSoKHZ_PA1wQ_AUoAnoECAEQBA&biw=2048&bih=1041&dpr=2#imgrc=BZvA4EbmS9_JQM',
+      img: 'https://media.istockphoto.com/photos/iphone-12-pro-max-graphite-picture-id1308589817?k=20&m=1308589817&s=612x612&w=0&h=EKrChl-1-cc0Ygdts-i2T14-lXMqIgsdtEOBmcMZHAM=',
       rating: '4',
       typeId: '1',
       brandId: '1',
@@ -45,7 +45,7 @@ const initialState: DevicesState = {
       id: '3',
       name: 'IPhone5',
       price: '25000',
-      img: 'https://www.google.com/search?q=Iphone+5&tbm=isch&ved=2ahUKEwivmPXppv33AhVqxosKHdgtAEAQ2-cCegQIABAA&oq=Iphone+5&gs_lcp=CgNpbWcQAzIICAAQgAQQsQMyCAgAEIAEELEDMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQ6BwgAELEDEEM6BAgAEEM6CAgAELEDEIMBUI4JWNwRYKYWaABwAHgAgAEriAGjAZIBATSYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=34SPYu-sJuqMrwTY24CABA&bih=1041&biw=2048&hl=ru#imgrc=y1sglYolRE0kpM',
+      img: 'https://media.istockphoto.com/photos/brand-new-iphone-12-pro-max-with-iphone-6s-plus-and-iphone-5-stacked-picture-id1286249958?k=20&m=1286249958&s=612x612&w=0&h=tiWApQPrU_2Yrrt_bpSxIPF5CfiPoj2jzTacqVHKZgs=',
       rating: '3',
       typeId: '1',
       brandId: '1',
@@ -54,7 +54,7 @@ const initialState: DevicesState = {
       id: '4',
       name: 'Samsung Holodilnik',
       price: '125000',
-      img: 'https://www.google.com/search?q=Samsung+refrigerator&tbm=isch&ved=2ahUKEwiE9quDp_33AhVTtSoKHRfHAFAQ2-cCegQIABAA&oq=Samsung+refrigerator&gs_lcp=CgNpbWcQAzIFCAAQgAQyBQgAEIAEMgQIABAeMgQIABAeMgQIABAeMgQIABAeMgQIABAeMgQIABAeMgQIABAeMgQIABAeOgcIABCxAxBDOggIABCABBCxAzoECAAQQzoGCAAQHhAFOgYIABAeEAhQ2BBYqHVg9XloBXAAeACAATqIAaIJkgECMjaYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=FIWPYoScOtPqqgGXjoOABQ&bih=1041&biw=2048&hl=ru#imgrc=3IZiluZVyQ2QSM',
+      img: 'https://media.istockphoto.com/photos/fridge-freezer-side-by-side-stainless-steel-refrigerator-with-ice-and-picture-id940975782?k=20&m=940975782&s=612x612&w=0&h=Q5c6kAKt2u5rgq1q9KYwqcGCnli15Jak2K7EH08QIjw=',
       rating: '3',
       typeId: '2',
       brandId: '2',
@@ -63,7 +63,7 @@ const initialState: DevicesState = {
       id: '5',
       name: 'Samsung ESHO Holodilnik',
       price: '525080',
-      img: 'https://www.google.com/search?q=Samsung+refrigerator&tbm=isch&ved=2ahUKEwiE9quDp_33AhVTtSoKHRfHAFAQ2-cCegQIABAA&oq=Samsung+refrigerator&gs_lcp=CgNpbWcQAzIFCAAQgAQyBQgAEIAEMgQIABAeMgQIABAeMgQIABAeMgQIABAeMgQIABAeMgQIABAeMgQIABAeMgQIABAeOgcIABCxAxBDOggIABCABBCxAzoECAAQQzoGCAAQHhAFOgYIABAeEAhQ2BBYqHVg9XloBXAAeACAATqIAaIJkgECMjaYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=FIWPYoScOtPqqgGXjoOABQ&bih=1041&biw=2048&hl=ru#imgrc=QKxWApmWKjKkCM',
+      img: 'https://media.istockphoto.com/vectors/fridge-realistic-open-and-closed-home-refrigerator-empty-freezer-for-vector-id1205260654?k=20&m=1205260654&s=612x612&w=0&h=pVDZLcyiuHYpqYdT7hoc-fXftMk4wDTggo8tW727UqE=',
       rating: '0',
       typeId: '2',
       brandId: '2',
@@ -72,7 +72,7 @@ const initialState: DevicesState = {
       id: '6',
       name: 'Samsung ESHO Holodilnik 8',
       price: '525080',
-      img: 'https://www.google.com/search?q=Samsung+refrigerator&tbm=isch&ved=2ahUKEwiE9quDp_33AhVTtSoKHRfHAFAQ2-cCegQIABAA&oq=Samsung+refrigerator&gs_lcp=CgNpbWcQAzIFCAAQgAQyBQgAEIAEMgQIABAeMgQIABAeMgQIABAeMgQIABAeMgQIABAeMgQIABAeMgQIABAeMgQIABAeOgcIABCxAxBDOggIABCABBCxAzoECAAQQzoGCAAQHhAFOgYIABAeEAhQ2BBYqHVg9XloBXAAeACAATqIAaIJkgECMjaYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=FIWPYoScOtPqqgGXjoOABQ&bih=1041&biw=2048&hl=ru#imgrc=r49I-q8oJxxuQM',
+      img: 'https://media.istockphoto.com/photos/household-refrigerator-on-a-white-background-picture-id959967124?k=20&m=959967124&s=612x612&w=0&h=OxPSxP_llquVqchbcWXIuz-c1YO-1ZenOoY7aePPhLc=',
       rating: '3',
       typeId: '2',
       brandId: '2',
@@ -81,7 +81,7 @@ const initialState: DevicesState = {
       id: '7',
       name: 'TV Rubin',
       price: '90999',
-      img: 'https://www.google.com/search?q=Samsung+%D1%82%D0%B5%D0%BB%D0%B5%D0%B2%D0%B8%D0%B7%D0%BE%D1%80+%D1%80%D1%83%D0%B1%D0%B8%D0%BD&tbm=isch&ved=2ahUKEwjAneOYqP33AhUyposKHeLrBjoQ2-cCegQIABAA&oq=Samsung+%D1%82%D0%B5%D0%BB%D0%B5%D0%B2%D0%B8%D0%B7%D0%BE%D1%80+%D1%80%D1%83%D0%B1%D0%B8%D0%BD&gs_lcp=CgNpbWcQAzoFCAAQgAQ6BAgAEBhQ4yBYzEJg70JoAHAAeACAATGIAesEkgECMTWYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=ToaPYsC-FLLMrgTi15vQAw&bih=1041&biw=2048&hl=ru#imgrc=Mw-5MNRH25OE6M',
+      img: 'https://media.istockphoto.com/photos/vintage-television-picture-id96203609?k=20&m=96203609&s=612x612&w=0&h=A-j1Sb_CyWjb2BRb2ZnzmNjvuOwiYcUtlF_QXbC_mh4=',
       rating: '5',
       typeId: '3',
       brandId: '3',
@@ -90,7 +90,7 @@ const initialState: DevicesState = {
       id: '8',
       name: 'Samsung TV',
       price: '33555',
-      img: 'https://www.google.com/search?q=Samsung+%D1%82%D0%B5%D0%BB%D0%B5%D0%B2%D0%B8%D0%B7%D0%BE%D1%80+&tbm=isch&ved=2ahUKEwitkcqeqP33AhUNjosKHcGVC04Q2-cCegQIABAA&oq=Samsung+%D1%82%D0%B5%D0%BB%D0%B5%D0%B2%D0%B8%D0%B7%D0%BE%D1%80+&gs_lcp=CgNpbWcQAzIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgARQuRJYuRJggBdoAHAAeACAASqIAUmSAQEymAEAoAEBqgELZ3dzLXdpei1pbWfAAQE&sclient=img&ei=WoaPYq38Ho2crgTBq67wBA&bih=1041&biw=2048&hl=ru#imgrc=xxZ_XWU78HssCM',
+      img: 'https://media.istockphoto.com/photos/flat-screen-lcd-or-oled-plasma-realistic-illustration-black-blank-hd-picture-id1208777082?k=20&m=1208777082&s=612x612&w=0&h=AiBoX216VYFuIWfmBR01Xv99nJhhx0mduFEIjaEEyDM=',
       rating: '5',
       typeId: '3',
       brandId: '2',
@@ -105,10 +105,18 @@ export const devicesSlice = createSlice({
   initialState,
   reducers: {
     setSelectedType: (state, action: PayloadAction<TypeType>) => {
-      state.selectedType = action.payload;
+      if (state.selectedType && state.selectedType.id === action.payload.id) {
+        state.selectedType = undefined;
+      } else {
+        state.selectedType = action.payload;
+      }
     },
     setSelectedBrand: (state, action: PayloadAction<BrandType>) => {
-      state.selectedBrand = action.payload;
+      if (state.selectedBrand && state.selectedBrand.id === action.payload.id) {
+        state.selectedBrand = undefined;
+      } else {
+        state.selectedBrand = action.payload;
+      }
     },
   },
 });
