@@ -11,11 +11,11 @@ const DeviceListItem: React.FC<PropsType> = ({ device }) => {
     <Card
       sx={{
         display: 'flex',
-        justifyContent: 'space-between',
         flexDirection: 'column',
         width: '100%',
-        boxShadow: 5,
+        justifyContent: 'space-between',
         borderRadius: '12px',
+        boxShadow: 5,
       }}
     >
       <CardContent>

@@ -8,9 +8,9 @@ const DeviceList: React.FC = () => {
   const devices = useAppSelector(selectorDevices);
 
   return (
-    <Grid container alignItems="stretch" spacing={2} my={'1px'}>
+    <Grid container spacing={2} my={'1px'}>
       {devices.map((device) => (
-        <Grid item xs={12} md={6} lg={3} style={{ display: 'flex', paddingBottom:'1rem' }}>
+        <Grid item xs={12} md={6} lg={3} style={{ display: 'flex', paddingBottom: '1rem' }}>
           <DeviceListItem device={device} />
         </Grid>
       ))}
