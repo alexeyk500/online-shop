@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAppDispatch } from '../../utils/hooks';
 import { userLoginThunk, userRegistrationThunk } from '../../store/userSlice';
-import { Box, Button, Card, CardActions, CardContent, TextField, Typography } from '@mui/material';
+import { Button, Card, CardActions, CardContent, Grid, TextField, Typography } from '@mui/material';
 
 const AuthPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -24,7 +24,9 @@ const AuthPage: React.FC = () => {
   };
 
   return (
-    <Box
+    <Grid
+      xs={8}
+      md={6}
       sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -33,7 +35,7 @@ const AuthPage: React.FC = () => {
       }}
     >
       <form onSubmit={onSubmit}>
-        <Card sx={{ minWidth: 450, boxShadow: 20 }}>
+        <Card sx={{ boxShadow: 20, borderRadius: '12px' }}>
           <CardContent>
             <Typography variant={'h4'} color="text.secondary" align={'center'} gutterBottom>
               {isRegistrationForm ? 'Регистрация' : 'Авторизация'}
@@ -81,7 +83,7 @@ const AuthPage: React.FC = () => {
           </CardActions>
         </Card>
       </form>
-    </Box>
+    </Grid>
   );
 };
 

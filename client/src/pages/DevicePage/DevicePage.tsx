@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Button, Card, CardActions, CardContent, Grid, Rating, Typography} from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, Grid, Rating, Typography } from '@mui/material';
 import { useAppSelector } from '../../utils/hooks';
 import { selectorDevices } from '../../store/deviceSlice';
 
@@ -26,14 +26,7 @@ const DevicePage: React.FC = () => {
       </Box>
 
       <Grid container>
-        <Grid
-          item
-          xs={12}
-          md={6}
-          display={'flex'}
-          justifyContent="center"
-          alignItems="center"
-        >
+        <Grid item xs={12} md={6} display={'flex'} justifyContent="center" alignItems="center">
           <Box
             component="img"
             sx={{
@@ -48,15 +41,7 @@ const DevicePage: React.FC = () => {
           />
         </Grid>
 
-        <Grid
-          item
-          xs={12}
-          md={4}
-          display={'flex'}
-          flexDirection={'column'}
-          justifyContent="center"
-          alignItems="center"
-        >
+        <Grid item xs={12} md={4} display={'flex'} flexDirection={'column'} justifyContent="center" alignItems="center">
           <Box
             display={'flex'}
             flexDirection={'column'}
@@ -86,9 +71,9 @@ const DevicePage: React.FC = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <Card sx={{padding: 2, boxShadow: 5, borderRadius: '6px'}}>
-            <CardContent >
-              <Grid display={"flex"} flexDirection={'column'} alignItems={'center'}>
+          <Card sx={{ padding: 2, boxShadow: 5, borderRadius: '6px' }}>
+            <CardContent>
+              <Grid display={'flex'} flexDirection={'column'} alignItems={'center'}>
                 <Typography gutterBottom variant="h5" component="div" color="primary">
                   Цена:
                 </Typography>
@@ -98,7 +83,7 @@ const DevicePage: React.FC = () => {
               </Grid>
             </CardContent>
             <CardActions>
-              <Button variant="outlined" size="medium" sx={{marginBottom: 1}}>
+              <Button variant="outlined" size="medium" sx={{ marginBottom: 1 }}>
                 В корзину
               </Button>
             </CardActions>
@@ -112,9 +97,8 @@ const DevicePage: React.FC = () => {
         </Typography>
       </Grid>
       {descriptions.map((description, ind) => {
-        const backColor = 'gray'
         return (
-          <Grid sx={{backgroundColor: ind % 2 === 0 ? 'background' : 'lightGray' }}>
+          <Grid sx={{ backgroundColor: ind % 2 === 0 ? 'background' : 'lightGray' }}>
             <Typography mb={'0'} gutterBottom variant="subtitle1" component="div" sx={{}}>
               {`${description.title}:${description.description}`}
             </Typography>

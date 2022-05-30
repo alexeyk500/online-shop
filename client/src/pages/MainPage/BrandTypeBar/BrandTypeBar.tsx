@@ -18,7 +18,7 @@ const BrandTypeBar: React.FC<PropsType> = ({ title, items, selectedItem, onSelec
         maxWidth: 360,
         backgroundColor: '#f3f3f3',
         boxShadow: 5,
-        borderRadius: '12px'
+        borderRadius: '12px',
       }}
     >
       <Typography

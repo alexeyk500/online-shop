@@ -30,9 +30,15 @@ const MainPage: React.FC = () => {
 
   return (
     <Grid container spacing={2} py={2}>
-      <Grid item xs={3}>
+      <Grid
+        item
+        xs={12}
+        md={3}
+        mt={'1rem'}
+        sx={{ display: { xs: 'flex', md: 'block' }, flexDirection: 'column', alignItems: { xs: 'center' } }}
+      >
         <BrandTypeBar title={'Типы Устройств'} items={types} selectedItem={selectedType} onSelectItem={onSelectType} />
-        <Box sx={{ height: '2rem' }}></Box>
+        <Box sx={{ height: '2rem' }} />
         <BrandTypeBar
           title={'Список Брендов'}
           items={brands}
@@ -40,7 +46,12 @@ const MainPage: React.FC = () => {
           onSelectItem={onSelectBrand}
         />
       </Grid>
-      <Grid item xs={9} style={{maxHeight: 'calc(100vh - 64px)', overflow: 'auto'}}>
+      <Grid
+        item
+        xs={12}
+        md={9}
+        sx={{ paddingRight: { xs: 0, md: '16px' }, maxHeight: 'calc(100vh - 64px)', overflowY: { md: 'scroll' } }}
+      >
         <DeviceList />
       </Grid>
     </Grid>

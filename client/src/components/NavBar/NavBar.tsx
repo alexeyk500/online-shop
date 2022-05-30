@@ -24,7 +24,7 @@ const NavBar: React.FC = () => {
 
   return (
     <>
-      <AppBar position='fixed'>
+      <AppBar position="fixed">
         <Container maxWidth="xl">
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
