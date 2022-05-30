@@ -48,7 +48,14 @@ const DeviceListItem: React.FC<PropsType> = ({ device }) => {
           component={'div'}
           sx={{ display: 'flex', flexDirection: 'column', width: '100%', marginBottom: '0.5rem', alignItems: 'start' }}
         >
-          <Button size="small">В корзину</Button>
+          <Box component={'div'} sx={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+            <Button variant={'text'} size="small" sx={{ display: 'flex', fontSize: '12px' }}>
+              Подробнее
+            </Button>
+            <Button variant={'outlined'} size="small" sx={{ display: 'flex', marginRight: '1rem' }}>
+              В корзину
+            </Button>
+          </Box>
         </Box>
       </CardActions>
     </Card>
