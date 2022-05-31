@@ -25,6 +25,7 @@ const AuthPage: React.FC = () => {
 
   return (
     <Grid
+      item
       xs={8}
       md={6}
       sx={{

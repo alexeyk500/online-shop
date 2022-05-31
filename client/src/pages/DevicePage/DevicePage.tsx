@@ -98,7 +98,7 @@ const DevicePage: React.FC = () => {
       </Grid>
       {descriptions.map((description, ind) => {
         return (
-          <Grid sx={{ backgroundColor: ind % 2 === 0 ? 'background' : 'lightGray' }}>
+          <Grid key={ind} sx={{ backgroundColor: ind % 2 === 0 ? 'background' : 'lightGray' }}>
             <Typography mb={'0'} gutterBottom variant="subtitle1" component="div" sx={{}}>
               {`${description.title}:${description.description}`}
             </Typography>

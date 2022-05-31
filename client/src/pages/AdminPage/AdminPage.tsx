@@ -1,15 +1,29 @@
 import React, { useState } from 'react';
 import { Button, Grid, Stack } from '@mui/material';
-import CreateTypePopUp from './CreateTypePopUp/CreateTypePopUp';
+import CreateTypeBrandPopUp from './CreateTypeBrandPopUp/CreateTypeBrandPopUp';
+
+enum TypePopupEnum {
+  typePopup = 'typePopup',
+  brandPopup = 'brandPopup'
+}
 
 const AdminPage: React.FC = () => {
-  const [isOpenNewTypePopup, setIsOpenNewTypePopup] = useState(false);
+
+  const [typePopup, setTypePopup] = useState<TypePopupEnum | undefined>(undefined);
 
   const onClickCreateNewType = () => {
+    setTypePopup(TypePopupEnum.typePopup);
+  };
+
+  const onCloseTypePopup = () => {
+    setIsOpenNewTypePopup(false);
+  };
+
+  const onClickCreateNewBrand = () => {
     setIsOpenNewTypePopup(true);
   };
 
-  const onCloseIsOpenNewTypePopup = () => {
+  const onCloseIsOpenNewBrandPopup = () => {
     setIsOpenNewTypePopup(false);
   };
 
@@ -28,7 +42,7 @@ const AdminPage: React.FC = () => {
           </Button>
         </Stack>
       </Grid>
-      <CreateTypePopUp isOpen={isOpenNewTypePopup} onClose={onCloseIsOpenNewTypePopup} />
+      <CreateTypeBrandPopUp isOpenTypePopup={isOpenNewTypePopup} onCloseTypePopup={onCloseTypePopup} />
     </Grid>
   );
 };

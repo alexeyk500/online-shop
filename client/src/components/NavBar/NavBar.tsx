@@ -1,17 +1,21 @@
 import React, { useEffect } from 'react';
 import { AppBar, Toolbar, Typography, Button, Container } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks';
 import { logoutUser, selectIsAuth } from '../../store/userSlice';
 
 const NavBar: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const isAuth = useAppSelector(selectIsAuth);
 
   useEffect(() => {
-    isAuth && navigate('/');
-  }, [isAuth, navigate]);
+    if (isAuth) {
+      navigate('/');
+    }
+    // eslint-disable-next-line
+  }, [isAuth]);
 
   const onClickLogin = () => {
     navigate('/auth');
@@ -19,6 +23,14 @@ const NavBar: React.FC = () => {
 
   const onClickLogout = () => {
     dispatch(logoutUser());
+    navigate('/');
+  };
+
+  const onClickAdmin = () => {
+    navigate('/admin');
+  };
+
+  const onClickGoMain = () => {
     navigate('/');
   };
 
@@ -33,14 +45,20 @@ const NavBar: React.FC = () => {
               </Link>
             </Typography>
             {isAuth ? (
-              <>
-                <Button color="inherit" variant="outlined" sx={{ mr: 2 }}>
-                  Админ Панель
+              location.pathname === '/admin' ? (
+                <Button color="inherit" variant="outlined" sx={{ mr: 2 }} onClick={onClickGoMain}>
+                  В магазин
                 </Button>
-                <Button color="inherit" variant="outlined" onClick={onClickLogout}>
-                  Выйти
-                </Button>
-              </>
+              ) : (
+                <>
+                  <Button color="inherit" variant="outlined" sx={{ mr: 2 }} onClick={onClickAdmin}>
+                    Админ Панель
+                  </Button>
+                  <Button color="inherit" variant="outlined" onClick={onClickLogout}>
+                    Выйти
+                  </Button>
+                </>
+              )
             ) : (
               <Button color="inherit" variant="outlined" onClick={onClickLogin}>
                 Войти

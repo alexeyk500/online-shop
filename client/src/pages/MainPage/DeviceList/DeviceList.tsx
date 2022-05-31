@@ -10,7 +10,7 @@ const DeviceList: React.FC = () => {
   return (
     <Grid container spacing={2} my={'1px'}>
       {devices.map((device) => (
-        <Grid item xs={12} md={6} lg={3} style={{ display: 'flex', paddingBottom: '1rem' }}>
+        <Grid key={device.id} item xs={12} md={6} lg={3} style={{ display: 'flex', paddingBottom: '1rem' }}>
           <DeviceListItem device={device} />
         </Grid>
       ))}

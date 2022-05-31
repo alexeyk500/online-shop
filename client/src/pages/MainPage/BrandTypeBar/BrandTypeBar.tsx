@@ -33,7 +33,12 @@ const BrandTypeBar: React.FC<PropsType> = ({ title, items, selectedItem, onSelec
       <Divider />
       <List component="nav" aria-label="main mailbox folders">
         {items.map((item) => (
-          <TypeItem item={item} isSelect={item.id === (selectedItem && selectedItem.id)} onSelectItem={onSelectItem} />
+          <TypeItem
+            key={item.id}
+            item={item}
+            isSelect={item.id === (selectedItem && selectedItem.id)}
+            onSelectItem={onSelectItem}
+          />
         ))}
       </List>
     </Box>
