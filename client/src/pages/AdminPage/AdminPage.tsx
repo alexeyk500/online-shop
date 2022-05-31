@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Grid, Stack } from '@mui/material';
 import CreateTypeBrandPopUp from './CreateTypeBrandPopUp/CreateTypeBrandPopUp';
+import CreateNewDevicePopup, { PopupDeviceType } from './CreateNewDevicePopup/CreateNewDevicePopup';
 
 export enum TypePopupEnum {
   typePopup = 'typePopup',
@@ -9,6 +10,7 @@ export enum TypePopupEnum {
 
 const AdminPage: React.FC = () => {
   const [typePopup, setTypePopup] = useState<TypePopupEnum | undefined>(undefined);
+  const [isShowDevicePopup, SetIsShowDevicePopup] = useState<boolean>(false);
 
   const onClickCreateNewType = () => {
     setTypePopup(TypePopupEnum.typePopup);
@@ -18,11 +20,22 @@ const AdminPage: React.FC = () => {
     setTypePopup(TypePopupEnum.brandPopup);
   };
 
-  const onClosePopup = (value: string | undefined) => {
+  const onCloseTypeBrandPopup = (value: string | undefined) => {
     if (value) {
       console.log('onClosePopup = ', typePopup, value);
     }
     setTypePopup(undefined);
+  };
+
+  const onClickShowDevicePopup = () => {
+    SetIsShowDevicePopup(true);
+  };
+
+  const onCloseDevicePopup = (device: PopupDeviceType | undefined) => {
+    if (device) {
+      console.log('onCloseDevicePopup = ', device);
+    }
+    SetIsShowDevicePopup(false);
   };
 
   return (
@@ -35,12 +48,13 @@ const AdminPage: React.FC = () => {
           <Button variant="text" sx={{ marginTop: '3rem' }} onClick={onClickCreateNewBrand}>
             Добавить Бренд
           </Button>
-          <Button variant="text" sx={{ marginTop: '3rem' }}>
+          <Button variant="text" sx={{ marginTop: '3rem' }} onClick={onClickShowDevicePopup}>
             Добавить Устройство
           </Button>
         </Stack>
       </Grid>
-      <CreateTypeBrandPopUp typePopup={typePopup} onClosePopup={onClosePopup} />
+      <CreateTypeBrandPopUp typePopup={typePopup} onClosePopup={onCloseTypeBrandPopup} />
+      <CreateNewDevicePopup isShow={isShowDevicePopup} onClose={onCloseDevicePopup} />
     </Grid>
   );
 };

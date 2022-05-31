@@ -49,19 +49,19 @@ const CreateTypeBrandPopUp: React.FC<PropsType> = ({ typePopup, onClosePopup }) 
     typePopup && onClosePopup(value);
   };
 
-  const onClose = () => {
+  const onClickCancel = () => {
     onClosePopup(undefined);
   };
 
   return (
-    <Dialog open={!!typePopup} onClose={onClose}>
+    <Dialog open={!!typePopup} onClose={onClickCancel}>
       <DialogTitle>
         {`Панель управления ${typePopup === TypePopupEnum.typePopup ? 'Типами' : 'Брендами'} устройств`}
       </DialogTitle>
       <DialogContent>
         <DialogContentText sx={{ marginBottom: '1rem' }}>{`Существующие ${
           typePopup === TypePopupEnum.typePopup ? 'Типы' : 'Бренды'
-        } устройств - ${items ?items.length :'0'} шт.`}</DialogContentText>
+        } устройств - ${items ? items.length : '0'} шт.`}</DialogContentText>
         <List
           sx={{
             maxHeight: '15vh',
@@ -105,7 +105,7 @@ const CreateTypeBrandPopUp: React.FC<PropsType> = ({ typePopup, onClosePopup }) 
         />
       </DialogContent>
       <DialogActions>
-        <Button color="error" onClick={onClose}>
+        <Button color="error" onClick={onClickCancel}>
           Отмена
         </Button>
         <Button color="success" onClick={onClickConfirm} disabled={!value}>

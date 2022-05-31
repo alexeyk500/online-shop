@@ -10,10 +10,10 @@ export type BrandType = {
 
 export type DeviceType = {
   id: string;
-  name: string;
+  name: string | undefined;
   price: string;
-  img: string;
+  img: string | undefined;
   rating: string;
-  typeId: string;
-  brandId: string;
+  typeId: string | undefined;
+  brandId: string | undefined;
 };
