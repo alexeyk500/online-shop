@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -13,37 +13,55 @@ import {
   TextField,
 } from '@mui/material';
 import { useAppSelector } from '../../../utils/hooks';
-import { selectorTypes } from '../../../store/deviceSlice';
+import { selectorBrands, selectorTypes } from '../../../store/deviceSlice';
 
 import DeleteIcon from '@mui/icons-material/Delete';
+import { TypePopupEnum } from '../AdminPage';
+import { BrandType, TypeType } from '../../../types/types';
 
 type PropsType = {
-  isOpenTypePopup: boolean;
-  onClosePopup: () => void;
+  typePopup: TypePopupEnum | undefined;
+  onClosePopup: (value: string | undefined) => void;
 };
 
-const CreateTypeBrandPopUp: React.FC<PropsType> = ({ isOpenTypePopup, onClosePopup }) => {
+const CreateTypeBrandPopUp: React.FC<PropsType> = ({ typePopup, onClosePopup }) => {
   const types = useAppSelector(selectorTypes);
+  const brands = useAppSelector(selectorBrands);
 
   const [value, setValue] = useState('');
+
+  const [items, setItems] = useState<TypeType[] | BrandType[] | undefined>(undefined);
+
+  useEffect(() => {
+    if (typePopup === TypePopupEnum.typePopup) {
+      setItems(types);
+    } else {
+      setItems(brands);
+    }
+  }, [typePopup, types, brands]);
 
   const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
   const onClickConfirm = () => {
-    console.log('Confirm - ', value);
     setValue('');
-    isOpenTypePopup && onClosePopup();
+    typePopup && onClosePopup(value);
+  };
+
+  const onClose = () => {
+    onClosePopup(undefined);
   };
 
   return (
-    <Dialog open={isOpen} onClose={onClosePopup}>
-      <DialogTitle>Типы Устройств</DialogTitle>
+    <Dialog open={!!typePopup} onClose={onClose}>
+      <DialogTitle>
+        {`Панель управления ${typePopup === TypePopupEnum.typePopup ? 'Типами' : 'Брендами'} устройств`}
+      </DialogTitle>
       <DialogContent>
-        <DialogContentText
-          sx={{ marginBottom: '1rem' }}
-        >{`Существующие типы устройств - ${types.length} шт.`}</DialogContentText>
+        <DialogContentText sx={{ marginBottom: '1rem' }}>{`Существующие ${
+          typePopup === TypePopupEnum.typePopup ? 'Типы' : 'Бренды'
+        } устройств - ${items ?items.length :'0'} шт.`}</DialogContentText>
         <List
           sx={{
             maxHeight: '15vh',
@@ -54,24 +72,25 @@ const CreateTypeBrandPopUp: React.FC<PropsType> = ({ isOpenTypePopup, onClosePop
             paddingLeft: '1rem',
           }}
         >
-          {types.map((type) => {
-            return (
-              <ListItem
-                sx={{ padding: '1px' }}
-                key={type.id}
-                secondaryAction={
-                  <IconButton edge="end" aria-label="delete">
-                    <DeleteIcon />
-                  </IconButton>
-                }
-              >
-                <ListItemText primary={type.name} />
-              </ListItem>
-            );
-          })}
+          {items &&
+            items.map((item) => {
+              return (
+                <ListItem
+                  sx={{ padding: '1px' }}
+                  key={item.id}
+                  secondaryAction={
+                    <IconButton edge="end" aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
+                  }
+                >
+                  <ListItemText primary={item.name} />
+                </ListItem>
+              );
+            })}
         </List>
         <DialogContentText variant={'h5'} mt={'2rem'}>
-          Введите название нового типа устройства
+          {`Введите название нового ${typePopup === TypePopupEnum.typePopup ? 'Типа' : 'Бренда'} устройства`}
         </DialogContentText>
         <TextField
           value={value}
@@ -79,7 +98,7 @@ const CreateTypeBrandPopUp: React.FC<PropsType> = ({ isOpenTypePopup, onClosePop
           autoFocus
           margin="dense"
           id="typeInput"
-          label="Название нового Типа для Устройства"
+          label={`Название нового ${typePopup === TypePopupEnum.typePopup ? 'Типа' : 'Бренда'} для Устройства`}
           type="text"
           fullWidth
           variant="standard"
@@ -89,7 +108,7 @@ const CreateTypeBrandPopUp: React.FC<PropsType> = ({ isOpenTypePopup, onClosePop
         <Button color="error" onClick={onClose}>
           Отмена
         </Button>
-        <Button color="success" onClick={onClickConfirm}>
+        <Button color="success" onClick={onClickConfirm} disabled={!value}>
           Создать
         </Button>
       </DialogActions>

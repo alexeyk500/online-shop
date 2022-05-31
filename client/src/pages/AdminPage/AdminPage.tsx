@@ -2,29 +2,27 @@ import React, { useState } from 'react';
 import { Button, Grid, Stack } from '@mui/material';
 import CreateTypeBrandPopUp from './CreateTypeBrandPopUp/CreateTypeBrandPopUp';
 
-enum TypePopupEnum {
+export enum TypePopupEnum {
   typePopup = 'typePopup',
-  brandPopup = 'brandPopup'
+  brandPopup = 'brandPopup',
 }
 
 const AdminPage: React.FC = () => {
-
   const [typePopup, setTypePopup] = useState<TypePopupEnum | undefined>(undefined);
 
   const onClickCreateNewType = () => {
     setTypePopup(TypePopupEnum.typePopup);
   };
 
-  const onCloseTypePopup = () => {
-    setIsOpenNewTypePopup(false);
-  };
-
   const onClickCreateNewBrand = () => {
-    setIsOpenNewTypePopup(true);
+    setTypePopup(TypePopupEnum.brandPopup);
   };
 
-  const onCloseIsOpenNewBrandPopup = () => {
-    setIsOpenNewTypePopup(false);
+  const onClosePopup = (value: string | undefined) => {
+    if (value) {
+      console.log('onClosePopup = ', typePopup, value);
+    }
+    setTypePopup(undefined);
   };
 
   return (
@@ -34,7 +32,7 @@ const AdminPage: React.FC = () => {
           <Button variant="text" sx={{ marginTop: '3rem' }} onClick={onClickCreateNewType}>
             Добавить Тип
           </Button>
-          <Button variant="text" sx={{ marginTop: '3rem' }}>
+          <Button variant="text" sx={{ marginTop: '3rem' }} onClick={onClickCreateNewBrand}>
             Добавить Бренд
           </Button>
           <Button variant="text" sx={{ marginTop: '3rem' }}>
@@ -42,7 +40,7 @@ const AdminPage: React.FC = () => {
           </Button>
         </Stack>
       </Grid>
-      <CreateTypeBrandPopUp isOpenTypePopup={isOpenNewTypePopup} onCloseTypePopup={onCloseTypePopup} />
+      <CreateTypeBrandPopUp typePopup={typePopup} onClosePopup={onClosePopup} />
     </Grid>
   );
 };

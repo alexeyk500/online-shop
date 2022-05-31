@@ -27,6 +27,7 @@ const initialState: DevicesState = {
     { id: '2', name: 'Samsung' },
     { id: '3', name: 'Рубин' },
     { id: '4', name: 'Lenovo' },
+    { id: '5', name: 'Fujitsu' },
   ],
   devices: [
     {

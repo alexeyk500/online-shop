@@ -12,7 +12,6 @@ export const publicRoutes = [
   { path: '/', element: <MainPage /> },
   { path: '/auth', element: <AuthPage /> },
   { path: '/device', element: <DevicePage /> },
-  { path: '/admin', element: <AdminPage /> },
 ];
 
 export const privateRoutes = [
