@@ -32,9 +32,9 @@ const getNewDevice = (): PopupDeviceType => {
   return {
     id: '-1',
     name: '',
-    price: '0',
+    price: '',
     img: '',
-    rating: '0',
+    rating: '',
     typeId: '',
     brandId: '',
     file: undefined,
@@ -51,7 +51,7 @@ const CreateNewDevicePopup: React.FC<PropsType> = ({ isShow, onClose }) => {
 
   useEffect(() => {
     setDevice(getNewDevice());
-  }, []);
+  }, [isShow]);
 
   const onClickConfirm = () => {
     onClose(device);
@@ -103,133 +103,178 @@ const CreateNewDevicePopup: React.FC<PropsType> = ({ isShow, onClose }) => {
     }
   };
 
-  // function onChange(event) {
-  //   var file = event.target.files[0];
-  //   var reader = new FileReader();
-  //   reader.onload = function(event) {
-  //     // The file's text will be printed here
-  //     console.log(event.target.result)
-  //   };
-  //
-  //   reader.readAsText(file);
-  // }
+  const isFormFullFilled = () => {
+    return !!(
+      device.name &&
+      device.name.length > 0 &&
+      device.price &&
+      device.name.length > 0 &&
+      device.typeId &&
+      device.brandId &&
+      device.file
+    );
+  };
 
   return (
     <Dialog maxWidth={'md'} open={isShow} onClose={onClickCancel}>
       <DialogTitle width={'70vw'}>{`Панель добавления нового устройства`}</DialogTitle>
       <DialogContent>
-        <FormControl sx={{ marginTop: '1rem' }} fullWidth>
-          <InputLabel id="selectType">{'Тип устройства'}</InputLabel>
-          <Select
-            labelId="selectType"
-            id="selectForType"
-            value={device.typeId}
-            label={'Тип устройства'}
-            onChange={onChangeType}
-          >
-            {types.map((type) => {
-              return (
-                <MenuItem key={type.id} value={type.id}>
-                  {type.name}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-        <FormControl sx={{ marginTop: '2rem' }} fullWidth>
-          <InputLabel id="selectBrand">{'Бренд устройства'}</InputLabel>
-          <Select
-            labelId="selectBrand"
-            id="selectForBrand"
-            value={device.brandId}
-            label={'Бренд устройства'}
-            onChange={onChangeBrand}
-          >
-            {brands.map((brand) => {
-              return (
-                <MenuItem key={brand.id} value={brand.id}>
-                  {brand.name}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-        <FormControl sx={{ marginTop: '2rem' }} fullWidth>
-          <TextField
-            value={device.name}
-            onChange={onChangeName}
-            margin="dense"
-            id="deviceName"
-            label={`Название Устройства`}
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-        </FormControl>
-        <FormControl sx={{ marginTop: '2rem' }} fullWidth>
-          <TextField
-            value={device.price}
-            onChange={onChangePrice}
-            margin="dense"
-            id="devicePrice"
-            label={`Цена Устройства`}
-            type="tel"
-            fullWidth
-            variant="standard"
-          />
-        </FormControl>
-        <FormControl sx={{ marginTop: '4rem' }} fullWidth>
-          <Grid display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={'start'}>
-            {device.file ? (
-              <>
-                <Box
-                  component="img"
-                  sx={{
-                    height: 233,
-                    width: 350,
-                    marginRight: '2rem',
-                    maxHeight: { xs: 233, md: 167 },
-                    maxWidth: { xs: 350, md: 250 },
-                    borderRadius: '12px',
-                    boxShadow: '5',
-                    objectFit: 'contain',
-                  }}
-                  alt="The house from the offer."
-                  src={fileDataURL}
-                />
-                <Typography mr={'2rem'} gutterBottom variant="button" component="div" color="green">
-                  {device.file.name}
-                </Typography>
-              </>
-            ) : (
-              <Typography mr={'2rem'} gutterBottom variant="button" component="div" color="red">
-                Файл не загружен
-              </Typography>
-            )}
-            <input
-              accept="image/*"
-              style={{ display: 'none' }}
-              id="raised-button-file"
-              type="file"
-              onChange={onChangeFile}
+        <Grid mt={{ xs: '0.5rem', md: '1rem' }}>
+          <FormControl fullWidth>
+            <InputLabel id="selectType">{'Тип устройства'}</InputLabel>
+            <Select
+              labelId="selectType"
+              id="selectForType"
+              value={device.typeId}
+              label={'Тип устройства'}
+              onChange={onChangeType}
+            >
+              {types.map((type) => {
+                return (
+                  <MenuItem key={type.id} value={type.id}>
+                    {type.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid mt={{ xs: '1rem', md: '2rem' }}>
+          <FormControl fullWidth>
+            <InputLabel id="selectBrand">{'Бренд устройства'}</InputLabel>
+            <Select
+              labelId="selectBrand"
+              id="selectForBrand"
+              value={device.brandId}
+              label={'Бренд устройства'}
+              onChange={onChangeBrand}
+            >
+              {brands.map((brand) => {
+                return (
+                  <MenuItem key={brand.id} value={brand.id}>
+                    {brand.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid mt={{ xs: '1rem', md: '2rem' }}>
+          <FormControl fullWidth>
+            <TextField
+              value={device.name}
+              onChange={onChangeName}
+              margin="dense"
+              id="deviceName"
+              label={`Название Устройства`}
+              type="text"
+              fullWidth
+              variant="standard"
             />
-            <label htmlFor="raised-button-file">
-              <Button variant={'outlined'} component="span">
-                {device.file ? 'Заменить файл' : 'Загрузить Файл'}
-              </Button>
-            </label>
-          </Grid>
-        </FormControl>
+          </FormControl>
+        </Grid>
+        <Grid mt={{ xs: '1rem', md: '2rem' }}>
+          <FormControl fullWidth>
+            <TextField
+              value={device.price}
+              onChange={onChangePrice}
+              margin="dense"
+              id="devicePrice"
+              label={`Цена Устройства`}
+              type="tel"
+              fullWidth
+              variant="standard"
+            />
+          </FormControl>
+        </Grid>
+        <Grid mt={{ xs: '1rem', md: '4rem' }}>
+          <FormControl fullWidth>
+            <Grid
+              container
+              display={'flex'}
+              flexDirection={'row'}
+              alignItems={'center'}
+              justifyContent={'start'}
+              sx={{ alignItems: 'center' }}
+            >
+              {device.file ? (
+                <>
+                  <Grid item xs={6} md={4}>
+                    <Box
+                      component="img"
+                      sx={{
+                        height: 140,
+                        width: 230,
+                        marginRight: '2rem',
+                        maxHeight: { xs: 70, md: 140 },
+                        maxWidth: { xs: 115, md: 230 },
+                        borderRadius: '6px',
+                        boxShadow: '10',
+                        objectFit: 'contain',
+                      }}
+                      alt="The house from the offer."
+                      src={fileDataURL}
+                    />
+                  </Grid>
+                  <Grid item xs={6} md={4}>
+                    <Typography
+                      mr={'2rem'}
+                      gutterBottom
+                      variant="button"
+                      component="div"
+                      color="green"
+                      textAlign={{ xs: 'center', md: 'start' }}
+                      width={'100%'}
+                    >
+                      {device.file.name}
+                    </Typography>
+                  </Grid>
+                </>
+              ) : (
+                <Grid item xs={6} md={3}>
+                  <Typography
+                    mr={'2rem'}
+                    gutterBottom
+                    variant="button"
+                    component="div"
+                    color="red"
+                    textAlign={{ xs: 'center', md: 'start' }}
+                  >
+                    Файл не загружен
+                  </Typography>
+                </Grid>
+              )}
+              <Grid
+                item
+                xs={device.file ? 12 : 6}
+                md={3}
+                display={'flex'}
+                width={'100%'}
+                justifyContent={{ xs: 'center', md: device.file ? 'center' : 'start' }}
+                mt={{ xs: device.file ? '1rem' : '0', md: '0' }}
+              >
+                <input
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  id="raised-button-file"
+                  type="file"
+                  onChange={onChangeFile}
+                />
+                <label htmlFor="raised-button-file">
+                  <Button variant={'outlined'} component="span" sx={{ textAlign: 'center' }}>
+                    {device.file ? 'Заменить файл' : 'Загрузить Файл'}
+                  </Button>
+                </label>
+              </Grid>
+            </Grid>
+          </FormControl>
+        </Grid>
       </DialogContent>
       <DialogActions>
         <Button color="error" onClick={onClickCancel}>
           Отмена
         </Button>
-        <Button
-          color="success"
-          onClick={onClickConfirm}
-          disabled={!device.name && !device.img && !device.price && !device.typeId && !device.brandId}
-        >
+        <Button color="success" onClick={onClickConfirm} disabled={!isFormFullFilled()}>
           Создать
         </Button>
       </DialogActions>
