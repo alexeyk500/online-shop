@@ -41,7 +41,7 @@ const NavBar: React.FC = () => {
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               <Link to={'/'} style={{ color: 'inherit', textDecoration: 'none' }}>
-                A500 Shop
+                A500 Магазин
               </Link>
             </Typography>
             {isAuth ? (
