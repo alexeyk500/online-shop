@@ -16,4 +16,11 @@ export type DeviceType = {
   rating: string;
   typeId: string | undefined;
   brandId: string | undefined;
+  info: DeviceInfoType[];
+};
+
+export type DeviceInfoType = {
+  id: string;
+  title: string;
+  description: string;
 };

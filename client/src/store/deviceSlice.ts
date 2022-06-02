@@ -43,6 +43,7 @@ const initialState: DevicesState = {
       rating: '5',
       typeId: '1',
       brandId: '1',
+      info: [],
     },
     {
       id: '2',
@@ -52,6 +53,7 @@ const initialState: DevicesState = {
       rating: '4',
       typeId: '1',
       brandId: '1',
+      info: [],
     },
     {
       id: '3',
@@ -61,6 +63,7 @@ const initialState: DevicesState = {
       rating: '3',
       typeId: '1',
       brandId: '1',
+      info: [],
     },
     {
       id: '4',
@@ -70,6 +73,7 @@ const initialState: DevicesState = {
       rating: '3',
       typeId: '2',
       brandId: '2',
+      info: [],
     },
     {
       id: '5',
@@ -79,6 +83,7 @@ const initialState: DevicesState = {
       rating: '0',
       typeId: '2',
       brandId: '2',
+      info: [],
     },
     {
       id: '6',
@@ -88,6 +93,7 @@ const initialState: DevicesState = {
       rating: '3',
       typeId: '2',
       brandId: '2',
+      info: [],
     },
     {
       id: '7',
@@ -97,6 +103,7 @@ const initialState: DevicesState = {
       rating: '5',
       typeId: '3',
       brandId: '3',
+      info: [],
     },
     {
       id: '8',
@@ -106,6 +113,7 @@ const initialState: DevicesState = {
       rating: '5',
       typeId: '3',
       brandId: '2',
+      info: [],
     },
     {
       id: '11',
@@ -115,6 +123,7 @@ const initialState: DevicesState = {
       rating: '5',
       typeId: '1',
       brandId: '1',
+      info: [],
     },
     {
       id: '12',
@@ -124,6 +133,7 @@ const initialState: DevicesState = {
       rating: '4',
       typeId: '1',
       brandId: '1',
+      info: [],
     },
     {
       id: '13',
@@ -133,6 +143,7 @@ const initialState: DevicesState = {
       rating: '3',
       typeId: '1',
       brandId: '1',
+      info: [],
     },
     {
       id: '14',
@@ -142,6 +153,7 @@ const initialState: DevicesState = {
       rating: '3',
       typeId: '2',
       brandId: '2',
+      info: [],
     },
     {
       id: '15',
@@ -151,6 +163,7 @@ const initialState: DevicesState = {
       rating: '0',
       typeId: '2',
       brandId: '2',
+      info: [],
     },
     {
       id: '16',
@@ -160,6 +173,7 @@ const initialState: DevicesState = {
       rating: '3',
       typeId: '2',
       brandId: '2',
+      info: [],
     },
     {
       id: '17',
@@ -169,6 +183,7 @@ const initialState: DevicesState = {
       rating: '5',
       typeId: '3',
       brandId: '3',
+      info: [],
     },
     {
       id: '18',
@@ -178,6 +193,7 @@ const initialState: DevicesState = {
       rating: '5',
       typeId: '3',
       brandId: '2',
+      info: [],
     },
   ],
   selectedType: undefined,
