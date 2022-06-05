@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Button, Grid, Stack } from '@mui/material';
 import CreateTypeBrandPopUp from './CreateTypeBrandPopUp/CreateTypeBrandPopUp';
 import CreateNewDevicePopup, { PopupDeviceType } from './CreateNewDevicePopup/CreateNewDevicePopup';
+import { addNewDeviceTapesThunk } from '../../store/deviceSlice';
+import { useAppDispatch } from '../../utils/hooks';
 
 export enum TypePopupEnum {
   typePopup = 'typePopup',
@@ -9,6 +11,7 @@ export enum TypePopupEnum {
 }
 
 const AdminPage: React.FC = () => {
+  const dispatch = useAppDispatch();
   const [typePopup, setTypePopup] = useState<TypePopupEnum | undefined>(undefined);
   const [isShowDevicePopup, SetIsShowDevicePopup] = useState<boolean>(false);
 
@@ -20,11 +23,16 @@ const AdminPage: React.FC = () => {
     setTypePopup(TypePopupEnum.brandPopup);
   };
 
-  const onCloseTypeBrandPopup = (value: string | undefined) => {
-    if (value) {
-      console.log('onClosePopup = ', typePopup, value);
-    }
+  const onCloseTypeBrandPopup = () => {
     setTypePopup(undefined);
+  };
+
+  const onAddNewItemTypeBrand = (value: string) => {
+    if (value) {
+      if (typePopup === TypePopupEnum.typePopup) {
+        dispatch(addNewDeviceTapesThunk(value));
+      }
+    }
   };
 
   const onClickShowDevicePopup = () => {
@@ -53,7 +61,11 @@ const AdminPage: React.FC = () => {
           </Button>
         </Stack>
       </Grid>
-      <CreateTypeBrandPopUp typePopup={typePopup} onClosePopup={onCloseTypeBrandPopup} />
+      <CreateTypeBrandPopUp
+        typePopup={typePopup}
+        onClosePopup={onCloseTypeBrandPopup}
+        onAddNewItem={onAddNewItemTypeBrand}
+      />
       <CreateNewDevicePopup isShow={isShowDevicePopup} onClose={onCloseDevicePopup} />
     </Grid>
   );

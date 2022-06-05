@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -21,16 +21,19 @@ import { BrandType, TypeType } from '../../../types/types';
 
 type PropsType = {
   typePopup: TypePopupEnum | undefined;
-  onClosePopup: (value: string | undefined) => void;
+  onClosePopup: () => void;
+  onAddNewItem: (value: string) => void;
 };
 
-const CreateTypeBrandPopUp: React.FC<PropsType> = ({ typePopup, onClosePopup }) => {
+const CreateTypeBrandPopUp: React.FC<PropsType> = ({ typePopup, onClosePopup, onAddNewItem }) => {
   const types = useAppSelector(selectorTypes);
   const brands = useAppSelector(selectorBrands);
 
   const [value, setValue] = useState('');
-
   const [items, setItems] = useState<TypeType[] | BrandType[] | undefined>(undefined);
+
+  const itemToScrollRef = useRef<HTMLDivElement | null>(null);
+  const [scrollToBottom, setScrollToBottom] = useState<boolean>(false);
 
   useEffect(() => {
     if (typePopup === TypePopupEnum.typePopup) {
@@ -44,13 +47,19 @@ const CreateTypeBrandPopUp: React.FC<PropsType> = ({ typePopup, onClosePopup }) 
     setValue(e.target.value);
   };
 
+  useEffect(() => {
+    scrollToBottom && itemToScrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // eslint-disable-next-line
+  }, [items]);
+
   const onClickConfirm = () => {
     setValue('');
-    typePopup && onClosePopup(value);
+    typePopup && onAddNewItem(value);
+    setScrollToBottom(true);
   };
 
   const onClickCancel = () => {
-    onClosePopup(undefined);
+    onClosePopup();
   };
 
   return (
@@ -73,7 +82,7 @@ const CreateTypeBrandPopUp: React.FC<PropsType> = ({ typePopup, onClosePopup }) 
           }}
         >
           {items &&
-            items.map((item) => {
+            items.map((item, ind) => {
               return (
                 <ListItem
                   sx={{ padding: '1px' }}
@@ -85,6 +94,7 @@ const CreateTypeBrandPopUp: React.FC<PropsType> = ({ typePopup, onClosePopup }) 
                   }
                 >
                   <ListItemText primary={item.name} />
+                  {ind+1 === items.length && <div ref={itemToScrollRef}></div>}
                 </ListItem>
               );
             })}

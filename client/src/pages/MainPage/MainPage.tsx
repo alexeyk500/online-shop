@@ -1,8 +1,9 @@
 import { Box, Grid } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import BrandTypeBar from './BrandTypeBar/BrandTypeBar';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks';
 import {
+  getDevicesTapesThunk,
   selectorBrands,
   selectorSelectedBrand,
   selectorSelectedType,
@@ -19,6 +20,11 @@ const MainPage: React.FC = () => {
   const selectedType = useAppSelector(selectorSelectedType);
   const brands = useAppSelector(selectorBrands);
   const selectedBrand = useAppSelector(selectorSelectedBrand);
+
+  useEffect(() => {
+    dispatch(getDevicesTapesThunk());
+    // eslint-disable-next-line
+  }, []);
 
   const onSelectType = (item: TypeType) => {
     dispatch(setSelectedType(item));

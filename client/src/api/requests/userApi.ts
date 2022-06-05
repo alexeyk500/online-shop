@@ -1,5 +1,5 @@
 import { instanceAxios } from '../instanceAxios';
-import { PostLoginServerType, PostRegistrationServerType } from '../../types/serverTypes';
+import { PostLoginServerType, PostRegistrationServerType } from '../serverTypes';
 
 export const userApi = {
   async userLogin({ email, password }: { email: string; password: string }) {

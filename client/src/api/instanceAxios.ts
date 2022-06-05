@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { TOKEN_NAME } from '../index';
 
 export const instanceAxios = axios.create({
   baseURL: process.env.REACT_APP_APP_BASE_URL,
@@ -8,6 +9,8 @@ export const instanceAxios = axios.create({
   },
 });
 
-export const setAuthToken = (token: string) => {
-  instanceAxios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+export const addAuthHeader = () => {
+  return {
+    headers: { Authorization: `Bearer ${localStorage.getItem(TOKEN_NAME)}` },
+  };
 };

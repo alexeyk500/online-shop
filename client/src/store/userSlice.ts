@@ -3,7 +3,7 @@ import { RootState } from './store';
 import { serverApi } from '../api/serverApi';
 import { TOKEN_NAME } from '../index';
 import { isError, showError } from './errorHelper';
-import { PostLoginServerType, PostRegistrationServerType } from '../types/serverTypes';
+import { PostLoginServerType, PostRegistrationServerType } from '../api/serverTypes';
 import { AxiosError } from 'axios';
 
 export interface UserState {

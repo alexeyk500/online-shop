@@ -1,6 +1,10 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 import { BrandType, DeviceType, TypeType } from '../types/types';
+import { GetDeviceTypes } from '../api/serverTypes';
+import { serverApi } from '../api/serverApi';
+import { AxiosError } from 'axios';
+import { isError, showError } from './errorHelper';
 
 export interface DevicesState {
   types: TypeType[];
@@ -8,19 +12,20 @@ export interface DevicesState {
   brands: BrandType[];
   selectedBrand: BrandType | undefined;
   devices: DeviceType[];
+  isLoading: boolean;
 }
 
 const initialState: DevicesState = {
   types: [
-    { id: '1', name: 'Телефоны' },
-    { id: '2', name: 'Холодильники' },
-    { id: '3', name: 'Телевизоры' },
-    { id: '11', name: 'Телефоны' },
-    { id: '12', name: 'Холодильники' },
-    { id: '13', name: 'Телевизоры' },
-    { id: '21', name: 'Телефоны' },
-    { id: '22', name: 'Холодильники' },
-    { id: '23', name: 'Телевизоры' },
+    // { id: '1', name: 'Телефоны' },
+    // { id: '2', name: 'Холодильники' },
+    // { id: '3', name: 'Телевизоры' },
+    // { id: '11', name: 'Телефоны' },
+    // { id: '12', name: 'Холодильники' },
+    // { id: '13', name: 'Телевизоры' },
+    // { id: '21', name: 'Телефоны' },
+    // { id: '22', name: 'Холодильники' },
+    // { id: '23', name: 'Телевизоры' },
   ],
   brands: [
     { id: '1', name: 'Apple' },
@@ -177,7 +182,31 @@ const initialState: DevicesState = {
   ],
   selectedType: undefined,
   selectedBrand: undefined,
+  isLoading: false,
 };
+
+export const getDevicesTapesThunk = createAsyncThunk<GetDeviceTypes, undefined, { rejectValue: string }>(
+  'deviceSlice/getDevicesTapesThunk',
+  async (_, { rejectWithValue }) => {
+    try {
+      return await serverApi.getDeviceTypes();
+    } catch (e) {
+      return rejectWithValue('Get Device Tapes Error\n' + JSON.stringify((e as AxiosError).response?.data));
+    }
+  }
+);
+
+export const addNewDeviceTapesThunk = createAsyncThunk<GetDeviceTypes, string, { rejectValue: string }>(
+  'deviceSlice/addNewDeviceTapesThunk',
+  async (name, { rejectWithValue }) => {
+    try {
+      await serverApi.addNewDeviceType(name);
+      return await serverApi.getDeviceTypes();
+    } catch (e) {
+      return rejectWithValue('Add Device Tapes Error\n' + JSON.stringify((e as AxiosError).response?.data));
+    }
+  }
+);
 
 export const devicesSlice = createSlice({
   name: 'devicesSlice',
@@ -197,6 +226,20 @@ export const devicesSlice = createSlice({
         state.selectedBrand = action.payload;
       }
     },
+  },
+
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(isAnyOf(getDevicesTapesThunk.fulfilled, addNewDeviceTapesThunk.fulfilled), (state, action) => {
+        state.isLoading = false;
+        state.types = action.payload;
+      })
+      .addMatcher(isAnyOf(getDevicesTapesThunk.pending, addNewDeviceTapesThunk.pending), (state) => {
+        state.isLoading = true;
+      })
+      .addMatcher(isError, (state, action: PayloadAction<string>) => {
+        showError(action.payload);
+      });
   },
 });
 
