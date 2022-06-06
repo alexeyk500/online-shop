@@ -94,7 +94,7 @@ const CreateTypeBrandPopUp: React.FC<PropsType> = ({ typePopup, onClosePopup, on
                   }
                 >
                   <ListItemText primary={item.name} />
-                  {ind+1 === items.length && <div ref={itemToScrollRef}></div>}
+                  {ind + 1 === items.length && <div ref={itemToScrollRef}></div>}
                 </ListItem>
               );
             })}
