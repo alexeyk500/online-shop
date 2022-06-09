@@ -1,31 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  TextField,
-} from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { useAppSelector } from '../../../utils/hooks';
 import { selectorBrands, selectorTypes } from '../../../store/deviceSlice';
 
-import DeleteIcon from '@mui/icons-material/Delete';
 import { TypePopupEnum } from '../AdminPage';
 import { BrandType, TypeType } from '../../../types/types';
+import ListCreateTypeBrand from './ListCreateTypeBrand/ListCreateTypeBrand';
 
 type PropsType = {
   typePopup: TypePopupEnum | undefined;
   onClosePopup: () => void;
   onAddNewItem: (value: string) => void;
+  onDeleteItem: (id: string) => void;
 };
 
-const CreateTypeBrandPopUp: React.FC<PropsType> = ({ typePopup, onClosePopup, onAddNewItem }) => {
+const CreateTypeBrandPopUp: React.FC<PropsType> = ({ typePopup, onClosePopup, onAddNewItem, onDeleteItem }) => {
   const types = useAppSelector(selectorTypes);
   const brands = useAppSelector(selectorBrands);
 
@@ -54,7 +43,7 @@ const CreateTypeBrandPopUp: React.FC<PropsType> = ({ typePopup, onClosePopup, on
 
   const onClickConfirm = () => {
     setValue('');
-    typePopup && onAddNewItem(value);
+    onAddNewItem(value);
     setScrollToBottom(true);
   };
 
@@ -71,34 +60,7 @@ const CreateTypeBrandPopUp: React.FC<PropsType> = ({ typePopup, onClosePopup, on
         <DialogContentText sx={{ marginBottom: '1rem' }}>{`Существующие ${
           typePopup === TypePopupEnum.typePopup ? 'Типы' : 'Бренды'
         } устройств - ${items ? items.length : '0'} шт.`}</DialogContentText>
-        <List
-          sx={{
-            maxHeight: '15vh',
-            overflow: 'auto',
-            border: '1px solid ',
-            borderColor: 'text.secondary',
-            borderRadius: '6px',
-            paddingLeft: '1rem',
-          }}
-        >
-          {items &&
-            items.map((item, ind) => {
-              return (
-                <ListItem
-                  sx={{ padding: '1px' }}
-                  key={item.id}
-                  secondaryAction={
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
-                  }
-                >
-                  <ListItemText primary={item.name} />
-                  {ind + 1 === items.length && <div ref={itemToScrollRef}></div>}
-                </ListItem>
-              );
-            })}
-        </List>
+        <ListCreateTypeBrand items={items} itemToScrollRef={itemToScrollRef} onDeleteItem={onDeleteItem} />
         <DialogContentText variant={'h5'} mt={'2rem'}>
           {`Введите название нового ${typePopup === TypePopupEnum.typePopup ? 'Типа' : 'Бренда'} устройства`}
         </DialogContentText>

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 import { BrandType, DeviceType, TypeType } from '../types/types';
-import { GetDeviceTypes } from '../api/serverTypes';
+import { GetDeviceBrands, GetDeviceTypes } from '../api/serverTypes';
 import { serverApi } from '../api/serverApi';
 import { AxiosError } from 'axios';
 import { isError, showError } from './errorHelper';
@@ -28,11 +28,11 @@ const initialState: DevicesState = {
     // { id: '23', name: 'Телевизоры' },
   ],
   brands: [
-    { id: '1', name: 'Apple' },
-    { id: '2', name: 'Samsung' },
-    { id: '3', name: 'Рубин' },
-    { id: '4', name: 'Lenovo' },
-    { id: '5', name: 'Fujitsu' },
+    // { id: '1', name: 'Apple' },
+    // { id: '2', name: 'Samsung' },
+    // { id: '3', name: 'Рубин' },
+    // { id: '4', name: 'Lenovo' },
+    // { id: '5', name: 'Fujitsu' },
   ],
   devices: [
     {
@@ -212,7 +212,7 @@ export const getDevicesTapesThunk = createAsyncThunk<GetDeviceTypes, undefined, 
   }
 );
 
-export const addNewDeviceTapesThunk = createAsyncThunk<GetDeviceTypes, string, { rejectValue: string }>(
+export const addNewDeviceTapeThunk = createAsyncThunk<GetDeviceTypes, string, { rejectValue: string }>(
   'deviceSlice/addNewDeviceTapesThunk',
   async (name, { rejectWithValue }) => {
     try {
@@ -220,6 +220,54 @@ export const addNewDeviceTapesThunk = createAsyncThunk<GetDeviceTypes, string, {
       return await serverApi.getDeviceTypes();
     } catch (e) {
       return rejectWithValue('Add Device Tapes Error\n' + JSON.stringify((e as AxiosError).response?.data));
+    }
+  }
+);
+
+export const deleteDeviceTapeThunk = createAsyncThunk<GetDeviceTypes, string, { rejectValue: string }>(
+  'deviceSlice/deleteDeviceTapesThunk',
+  async (id, { rejectWithValue }) => {
+    try {
+      await serverApi.deleteDeviceType(id);
+      return await serverApi.getDeviceTypes();
+    } catch (e) {
+      return rejectWithValue('Delete Device Tapes Error\n' + JSON.stringify((e as AxiosError).response?.data));
+    }
+  }
+);
+
+export const getDevicesBrandsThunk = createAsyncThunk<GetDeviceBrands, undefined, { rejectValue: string }>(
+  'deviceSlice/getDevicesBrandsThunk',
+  async (_, { rejectWithValue }) => {
+    try {
+      return await serverApi.getDeviceBrands();
+    } catch (e) {
+      console.log('error =', e);
+      return rejectWithValue('Get Device Brands Error\n' + JSON.stringify((e as AxiosError).response?.data));
+    }
+  }
+);
+
+export const addNewDeviceBrandThunk = createAsyncThunk<GetDeviceBrands, string, { rejectValue: string }>(
+  'deviceSlice/addNewDeviceBrandsThunk',
+  async (name, { rejectWithValue }) => {
+    try {
+      await serverApi.addNewDeviceBrand(name);
+      return await serverApi.getDeviceBrands();
+    } catch (e) {
+      return rejectWithValue('Add Device Brands Error\n' + JSON.stringify((e as AxiosError).response?.data));
+    }
+  }
+);
+
+export const deleteDeviceBrandThunk = createAsyncThunk<GetDeviceBrands, string, { rejectValue: string }>(
+  'deviceSlice/deleteDeviceBrandsThunk',
+  async (id, { rejectWithValue }) => {
+    try {
+      await serverApi.deleteDeviceBrand(id);
+      return await serverApi.getDeviceBrands();
+    } catch (e) {
+      return rejectWithValue('Delete Device Brands Error\n' + JSON.stringify((e as AxiosError).response?.data));
     }
   }
 );
@@ -246,13 +294,33 @@ export const devicesSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addMatcher(isAnyOf(getDevicesTapesThunk.fulfilled, addNewDeviceTapesThunk.fulfilled), (state, action) => {
-        state.isLoading = false;
-        state.types = action.payload;
-      })
-      .addMatcher(isAnyOf(getDevicesTapesThunk.pending, addNewDeviceTapesThunk.pending), (state) => {
-        state.isLoading = true;
-      })
+      .addMatcher(
+        isAnyOf(getDevicesTapesThunk.fulfilled, addNewDeviceTapeThunk.fulfilled, deleteDeviceTapeThunk.fulfilled),
+        (state, action) => {
+          state.isLoading = false;
+          state.types = action.payload;
+        }
+      )
+      .addMatcher(
+        isAnyOf(getDevicesBrandsThunk.fulfilled, addNewDeviceBrandThunk.fulfilled, deleteDeviceBrandThunk.fulfilled),
+        (state, action) => {
+          state.isLoading = false;
+          state.brands = action.payload;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          getDevicesTapesThunk.pending,
+          addNewDeviceTapeThunk.pending,
+          deleteDeviceTapeThunk.pending,
+          getDevicesBrandsThunk.pending,
+          addNewDeviceBrandThunk.pending,
+          deleteDeviceBrandThunk.pending
+        ),
+        (state) => {
+          state.isLoading = true;
+        }
+      )
       .addMatcher(isError, (state, action: PayloadAction<string>) => {
         showError(action.payload);
       });

@@ -11,21 +11,21 @@ services:
       - POSTGRES_PASSWORD=secret
     volumes:
       - db:/var/lib/postgresql/data
-#  server:
-#    build: ./server
-#    restart: always
-#    ports:
-#      - "5000:5000"
-#    environment:
-#      - PORT=5000
-#      - DB_NAME=postgres
-#      - DB_USER=a500
-#      - DB_PASSWORD=secret
-#      - DB_HOST=db
-#      - DB_PORT=5432
-#      - SECRET_KEY=Secret_Key_123
-#    volumes:
-#      - server_static:/server/static
+  server:
+    build: ./server
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - DB_NAME=postgres
+      - DB_USER=a500
+      - DB_PASSWORD=secret
+      - DB_HOST=db
+      - DB_PORT=5432
+      - SECRET_KEY=Secret_Key_123
+    volumes:
+      - server_static:/server/static
 volumes:
   db:
     driver: local

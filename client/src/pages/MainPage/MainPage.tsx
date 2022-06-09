@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import BrandTypeBar from './BrandTypeBar/BrandTypeBar';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks';
 import {
+  getDevicesBrandsThunk,
   getDevicesTapesThunk,
   selectorBrands,
   selectorSelectedBrand,
@@ -23,6 +24,7 @@ const MainPage: React.FC = () => {
 
   useEffect(() => {
     dispatch(getDevicesTapesThunk());
+    dispatch(getDevicesBrandsThunk());
     // eslint-disable-next-line
   }, []);
 

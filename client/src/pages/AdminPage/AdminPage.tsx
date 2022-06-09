@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { Button, Grid, Stack } from '@mui/material';
 import CreateTypeBrandPopUp from './CreateTypeBrandPopUp/CreateTypeBrandPopUp';
 import CreateNewDevicePopup, { PopupDeviceType } from './CreateNewDevicePopup/CreateNewDevicePopup';
-import { addNewDeviceTapesThunk } from '../../store/deviceSlice';
+import {
+  addNewDeviceBrandThunk,
+  addNewDeviceTapeThunk,
+  deleteDeviceBrandThunk,
+  deleteDeviceTapeThunk,
+} from '../../store/deviceSlice';
 import { useAppDispatch } from '../../utils/hooks';
 
 export enum TypePopupEnum {
@@ -30,7 +35,19 @@ const AdminPage: React.FC = () => {
   const onAddNewItemTypeBrand = (value: string) => {
     if (value) {
       if (typePopup === TypePopupEnum.typePopup) {
-        dispatch(addNewDeviceTapesThunk(value));
+        dispatch(addNewDeviceTapeThunk(value));
+      } else {
+        dispatch(addNewDeviceBrandThunk(value));
+      }
+    }
+  };
+
+  const onDeleteItemTypeBrand = (id: string) => {
+    if (id) {
+      if (typePopup === TypePopupEnum.typePopup) {
+        dispatch(deleteDeviceTapeThunk(id));
+      } else {
+        dispatch(deleteDeviceBrandThunk(id));
       }
     }
   };
@@ -65,6 +82,7 @@ const AdminPage: React.FC = () => {
         typePopup={typePopup}
         onClosePopup={onCloseTypeBrandPopup}
         onAddNewItem={onAddNewItemTypeBrand}
+        onDeleteItem={onDeleteItemTypeBrand}
       />
       <CreateNewDevicePopup isShow={isShowDevicePopup} onClose={onCloseDevicePopup} />
     </Grid>

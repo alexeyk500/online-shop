@@ -1,6 +1,9 @@
 // Пересобрать и запустить контенеры в docker-compose.yml
 docker-compose up --build
 
+//Отановить все контейнеры
+docker stop $(docker ps -a -q)
+
 //Удалить все остановленнные контейнеры
 docker rm $(docker ps -a -f status=exited -q)
 
