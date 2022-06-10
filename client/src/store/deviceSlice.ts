@@ -4,7 +4,7 @@ import { BrandType, DeviceType, TypeType } from '../types/types';
 import { GetDeviceBrands, GetDeviceTypes } from '../api/serverTypes';
 import { serverApi } from '../api/serverApi';
 import { AxiosError } from 'axios';
-import { isError, showError } from './errorHelper';
+import { showError } from './errorHelper';
 
 export interface DevicesState {
   types: TypeType[];
@@ -321,9 +321,20 @@ export const devicesSlice = createSlice({
           state.isLoading = true;
         }
       )
-      .addMatcher(isError, (state, action: PayloadAction<string>) => {
-        showError(action.payload);
-      });
+      .addMatcher(
+        isAnyOf(
+          getDevicesTapesThunk.rejected,
+          addNewDeviceTapeThunk.rejected,
+          deleteDeviceTapeThunk.rejected,
+          getDevicesBrandsThunk.rejected,
+          addNewDeviceBrandThunk.rejected,
+          deleteDeviceBrandThunk.rejected
+        ),
+        (state, action) => {
+          state.isLoading = false;
+          showError(action.payload);
+        }
+      );
   },
 });
 

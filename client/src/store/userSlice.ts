@@ -1,8 +1,7 @@
-import { createAsyncThunk, createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { RootState } from './store';
 import { serverApi } from '../api/serverApi';
 import { TOKEN_NAME } from '../index';
-import { isError, showError } from './errorHelper';
 import { PostLoginServerType, PostRegistrationServerType } from '../api/serverTypes';
 import { AxiosError } from 'axios';
 
@@ -16,12 +15,6 @@ const initialState: UserState = {
   isLoading: false,
   isAuth: false,
   user: {},
-};
-
-const userLogout = (state: UserState) => {
-  state.isAuth = false;
-  state.user = {};
-  localStorage.removeItem(TOKEN_NAME);
 };
 
 export const userLoginThunk = createAsyncThunk<
@@ -54,13 +47,15 @@ export const userSlice = createSlice({
 
   reducers: {
     logoutUser: (state) => {
-      userLogout(state);
+      localStorage.removeItem(TOKEN_NAME);
+      state.isAuth = false;
+      state.user = {};
     },
   },
 
   extraReducers: (builder) => {
     builder
-      .addCase(userLoginThunk.pending, (state) => {
+      .addMatcher(isAnyOf(userLoginThunk.pending, userRegistrationThunk.pending), (state) => {
         state.isLoading = true;
       })
       .addMatcher(isAnyOf(userLoginThunk.fulfilled, userRegistrationThunk.fulfilled), (state, action) => {
@@ -69,9 +64,9 @@ export const userSlice = createSlice({
         state.isAuth = true;
         state.isLoading = false;
       })
-      .addMatcher(isError, (state, action: PayloadAction<string>) => {
-        userLogout(state);
-        showError(action.payload);
+      .addMatcher(isAnyOf(userLoginThunk.rejected, userRegistrationThunk.rejected), (state) => {
+        logoutUser();
+        state.isLoading = false;
       });
   },
 });

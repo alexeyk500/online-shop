@@ -4,6 +4,6 @@ export const isError = (action: AnyAction) => {
   return action.type.endsWith('rejected');
 };
 
-export const showError = (errorMessage: string) => {
-  alert(errorMessage);
+export const showError = (message: string | undefined) => {
+  alert(message ? message : 'Undefined Error');
 };
