@@ -68,13 +68,13 @@ const AdminPage: React.FC = () => {
       <Grid item md={4} sx={{ display: 'flex', justifyContent: 'center' }}>
         <Stack direction="column">
           <Button variant="text" sx={{ marginTop: '3rem' }} onClick={onClickCreateNewType}>
-            Добавить Тип
+            Управление Типами
           </Button>
           <Button variant="text" sx={{ marginTop: '3rem' }} onClick={onClickCreateNewBrand}>
-            Добавить Бренд
+            Управление Брендами
           </Button>
           <Button variant="text" sx={{ marginTop: '3rem' }} onClick={onClickShowDevicePopup}>
-            Добавить Устройство
+            Управление Устройствами
           </Button>
         </Stack>
       </Grid>
