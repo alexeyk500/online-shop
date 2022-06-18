@@ -1,4 +1,4 @@
-import { BrandType, TypeType } from '../types/types';
+import { BrandType, DeviceType, TypeType } from '../types/types';
 
 export type PostLoginServerType = {
   token: string;
@@ -15,3 +15,14 @@ export type DeleteDeviceType = number;
 export type GetDeviceBrands = BrandType[];
 export type AddNewDeviceBrand = BrandType;
 export type DeleteDeviceBrand = number;
+
+export type ParamsForGetDevicesServerType = {
+  typeId: string | undefined;
+  brandId: string | undefined;
+  limit: string | undefined;
+  page: string | undefined;
+};
+export type GetDevicesServerType = {
+  count: number;
+  rows: DeviceType[];
+};

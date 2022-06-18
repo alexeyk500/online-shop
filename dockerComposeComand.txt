@@ -4,6 +4,9 @@ docker-compose up --build
 //Отановить все контейнеры
 docker stop $(docker ps -a -q)
 
+//Остановить и удалить все контенеры
+docker rm -f $(docker ps -aq)
+
 //Удалить все остановленнные контейнеры
 docker rm $(docker ps -a -f status=exited -q)
 

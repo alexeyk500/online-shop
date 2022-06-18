@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../utils/hooks';
 import {
   getDevicesBrandsThunk,
   getDevicesTapesThunk,
+  getDevicesThunk,
   selectorBrands,
   selectorSelectedBrand,
   selectorSelectedType,
@@ -25,6 +26,8 @@ const MainPage: React.FC = () => {
   useEffect(() => {
     dispatch(getDevicesTapesThunk());
     dispatch(getDevicesBrandsThunk());
+    const params = { typeId: '1', brandId: '1', limit: '5', page: '1' };
+    dispatch(getDevicesThunk(params));
     // eslint-disable-next-line
   }, []);
 
@@ -35,6 +38,8 @@ const MainPage: React.FC = () => {
   const onSelectBrand = (item: BrandType) => {
     dispatch(setSelectedBrand(item));
   };
+
+  console.log('REACT_APP_API_URL =', process.env.REACT_APP_API_URL);
 
   return (
     <Grid container spacing={2} py={2}>

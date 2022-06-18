@@ -5,8 +5,11 @@ import {
   DeleteDeviceBrand,
   DeleteDeviceType,
   GetDeviceBrands,
+  GetDevicesServerType,
   GetDeviceTypes,
+  ParamsForGetDevicesServerType,
 } from '../serverTypes';
+import { makeQueries } from '../../utils/functions';
 
 export const deviceApi = {
   async getDeviceTypes() {
@@ -31,6 +34,13 @@ export const deviceApi = {
   },
   async deleteDeviceBrand(id: string) {
     const response = await instanceAxios.delete<DeleteDeviceBrand>(`/brand/${id}`, addAuthHeader());
+    return response.data;
+  },
+  async getDevices(params: ParamsForGetDevicesServerType) {
+    const queries = makeQueries(params);
+    console.log(queries);
+    const response = await instanceAxios.get<GetDevicesServerType>('/device' + queries);
+    console.log('response =', response);
     return response.data;
   },
 };
