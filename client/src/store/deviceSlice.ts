@@ -3,6 +3,7 @@ import { RootState } from './store';
 import { BrandType, DeviceType, TypeType } from '../types/types';
 import {
   GetDeviceBrands,
+  GetDeviceByIDServerType,
   GetDevicesServerType,
   GetDeviceTypes,
   ParamsForGetDevicesServerType,
@@ -17,6 +18,7 @@ export interface DevicesState {
   brands: BrandType[];
   selectedBrand: BrandType | undefined;
   devices: DeviceType[];
+  selectedDevice: DeviceType | undefined;
   isLoading: boolean;
 }
 
@@ -203,6 +205,7 @@ const initialState: DevicesState = {
   ],
   selectedType: undefined,
   selectedBrand: undefined,
+  selectedDevice: undefined,
   isLoading: false,
 };
 
@@ -289,6 +292,17 @@ export const getDevicesThunk = createAsyncThunk<
   }
 });
 
+export const getDeviceByIdThunk = createAsyncThunk<GetDeviceByIDServerType, string, { rejectValue: string }>(
+  'deviceSlice/getDeviceByIdThunk',
+  async (id, { rejectWithValue }) => {
+    try {
+      return await serverApi.getDeviceById(id);
+    } catch (e) {
+      return rejectWithValue('Get Device by Id Error\n' + JSON.stringify((e as AxiosError).response?.data));
+    }
+  }
+);
+
 export const devicesSlice = createSlice({
   name: 'devicesSlice',
   initialState,
@@ -311,6 +325,16 @@ export const devicesSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
+      .addCase(getDeviceByIdThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.selectedDevice = { ...action.payload, img: process.env.REACT_APP_BASE_URL + '/' + action.payload.img };
+      })
+      .addCase(getDevicesThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.devices = action.payload.rows.map((item) => {
+          return { ...item, img: process.env.REACT_APP_BASE_URL + '/' + item.img };
+        });
+      })
       .addMatcher(
         isAnyOf(getDevicesTapesThunk.fulfilled, addNewDeviceTapeThunk.fulfilled, deleteDeviceTapeThunk.fulfilled),
         (state, action) => {
@@ -325,12 +349,6 @@ export const devicesSlice = createSlice({
           state.brands = action.payload;
         }
       )
-      .addMatcher(isAnyOf(getDevicesThunk.fulfilled), (state, action) => {
-        state.isLoading = false;
-        state.devices = action.payload.rows.map((item) => {
-          return { ...item, img: process.env.REACT_APP_BASE_URL + '/' + item.img };
-        });
-      })
       .addMatcher(
         isAnyOf(
           getDevicesTapesThunk.pending,
@@ -339,7 +357,8 @@ export const devicesSlice = createSlice({
           getDevicesBrandsThunk.pending,
           addNewDeviceBrandThunk.pending,
           deleteDeviceBrandThunk.pending,
-          getDevicesThunk.pending
+          getDevicesThunk.pending,
+          getDeviceByIdThunk.pending
         ),
         (state) => {
           state.isLoading = true;
@@ -353,7 +372,8 @@ export const devicesSlice = createSlice({
           getDevicesBrandsThunk.rejected,
           addNewDeviceBrandThunk.rejected,
           deleteDeviceBrandThunk.rejected,
-          getDevicesThunk.rejected
+          getDevicesThunk.rejected,
+          getDeviceByIdThunk.rejected
         ),
         (state, action) => {
           state.isLoading = false;
@@ -370,5 +390,6 @@ export const selectorSelectedType = (state: RootState) => state.devices.selected
 export const selectorBrands = (state: RootState) => state.devices.brands;
 export const selectorSelectedBrand = (state: RootState) => state.devices.selectedBrand;
 export const selectorDevices = (state: RootState) => state.devices.devices;
+export const selectorSelectedDevice = (state: RootState) => state.devices.selectedDevice;
 
 export default devicesSlice.reducer;

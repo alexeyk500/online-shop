@@ -9,7 +9,9 @@ export const makeQueries = (params: ParamsType) => {
     return queries;
   }
   for (const [query, value] of entries) {
-    queries += `&${query}=${value}`;
+    if (value) {
+      queries += `&${query}=${value}`;
+    }
   }
   queries = '?' + queries.slice(1);
   return queries;

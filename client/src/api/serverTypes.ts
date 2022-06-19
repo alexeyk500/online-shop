@@ -16,11 +16,13 @@ export type GetDeviceBrands = BrandType[];
 export type AddNewDeviceBrand = BrandType;
 export type DeleteDeviceBrand = number;
 
+export type GetDeviceByIDServerType = DeviceType;
+
 export type ParamsForGetDevicesServerType = {
-  typeId: string | undefined;
-  brandId: string | undefined;
-  limit: string | undefined;
-  page: string | undefined;
+  typeId?: string | undefined;
+  brandId?: string | undefined;
+  limit?: string | undefined;
+  page?: string | undefined;
 };
 export type GetDevicesServerType = {
   count: number;

@@ -11,7 +11,7 @@ import { useAppSelector } from '../../utils/hooks';
 export const publicRoutes = [
   { path: '/', element: <MainPage /> },
   { path: '/auth', element: <AuthPage /> },
-  { path: '/device', element: <DevicePage /> },
+  { path: '/device/:id', element: <DevicePage /> },
 ];
 
 export const privateRoutes = [

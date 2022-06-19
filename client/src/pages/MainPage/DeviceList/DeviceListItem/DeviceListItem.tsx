@@ -1,12 +1,19 @@
 import React from 'react';
 import { DeviceType } from '../../../../types/types';
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Rating, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 type PropsType = {
   device: DeviceType;
 };
 
 const DeviceListItem: React.FC<PropsType> = ({ device }) => {
+  const navigate = useNavigate();
+
+  const onClickSelectDevice = () => {
+    navigate(`/device/${device.id}`);
+  };
+
   return (
     <Card
       sx={{
@@ -49,7 +56,12 @@ const DeviceListItem: React.FC<PropsType> = ({ device }) => {
           sx={{ display: 'flex', flexDirection: 'column', width: '100%', marginBottom: '0.5rem', alignItems: 'start' }}
         >
           <Box component={'div'} sx={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
-            <Button variant={'text'} size="small" sx={{ display: 'flex', fontSize: '12px' }}>
+            <Button
+              variant={'text'}
+              size="small"
+              sx={{ display: 'flex', fontSize: '12px' }}
+              onClick={onClickSelectDevice}
+            >
               Подробнее
             </Button>
             <Button variant={'outlined'} size="small" sx={{ display: 'flex', marginRight: '1rem' }}>

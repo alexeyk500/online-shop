@@ -16,6 +16,8 @@ import {
 import { BrandType, TypeType } from '../../types/types';
 import DeviceList from './DeviceList/DeviceList';
 
+const CARDS_ON_PAGE_LIMIT = '5';
+
 const MainPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const types = useAppSelector(selectorTypes);
@@ -26,10 +28,14 @@ const MainPage: React.FC = () => {
   useEffect(() => {
     dispatch(getDevicesTapesThunk());
     dispatch(getDevicesBrandsThunk());
-    const params = { typeId: '1', brandId: '1', limit: '5', page: '1' };
-    dispatch(getDevicesThunk(params));
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    dispatch(
+      getDevicesThunk({ typeId: selectedType?.id, brandId: selectedBrand?.id, limit: CARDS_ON_PAGE_LIMIT, page: '1' })
+    );
+  }, [selectedType, selectedBrand, dispatch]);
 
   const onSelectType = (item: TypeType) => {
     dispatch(setSelectedType(item));
@@ -38,8 +44,6 @@ const MainPage: React.FC = () => {
   const onSelectBrand = (item: BrandType) => {
     dispatch(setSelectedBrand(item));
   };
-
-  console.log('REACT_APP_API_URL =', process.env.REACT_APP_API_URL);
 
   return (
     <Grid container spacing={2} py={2}>
