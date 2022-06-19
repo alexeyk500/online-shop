@@ -9,6 +9,7 @@ import {
   deleteDeviceTapeThunk,
 } from '../../store/deviceSlice';
 import { useAppDispatch } from '../../utils/hooks';
+import {serverApi} from "../../api/serverApi";
 
 export enum TypePopupEnum {
   typePopup = 'typePopup',
@@ -56,9 +57,23 @@ const AdminPage: React.FC = () => {
     SetIsShowDevicePopup(true);
   };
 
-  const onCloseDevicePopup = (device: PopupDeviceType | undefined) => {
+  const addNewDevice = (device: PopupDeviceType) => {
+    const formData = new FormData();
+    device.name && formData.append('name', device.name)
+    device.price && formData.append('price', device.price)
+    device.file && formData.append('img', device.file)
+    device.brandId && formData.append('brandId', device.brandId)
+    device.typeId && formData.append('typeId', device.typeId)
+    device.info && formData.append('info', JSON.stringify(device.info))
+    // new Response(formData).text().then(console.log)
+    return serverApi.createNewDevice(formData)
+  }
+
+  const onCloseDevicePopup = async (device: PopupDeviceType | undefined) => {
     if (device) {
       console.log('onCloseDevicePopup = ', device);
+      const newDevice = await addNewDevice(device);
+      console.log('newDevice =', newDevice)
     }
     SetIsShowDevicePopup(false);
   };

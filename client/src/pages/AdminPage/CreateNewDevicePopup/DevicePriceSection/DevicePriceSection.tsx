@@ -9,7 +9,6 @@ type PropsType = {
 
 const DevicePriceSection: React.FC<PropsType> = ({ device, setDevice }) => {
   const onChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     const newDevice = { ...device };
     newDevice.price = e.target.value;
     setDevice(newDevice);

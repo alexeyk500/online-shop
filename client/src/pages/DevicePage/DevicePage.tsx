@@ -1,18 +1,18 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Box, Button, Card, CardActions, CardContent, Grid, Rating, Typography } from '@mui/material';
-import {useAppDispatch, useAppSelector} from '../../utils/hooks';
-import {getDeviceByIdThunk, selectorSelectedDevice} from '../../store/deviceSlice';
+import { useAppDispatch, useAppSelector } from '../../utils/hooks';
+import { getDeviceByIdThunk, selectorSelectedDevice } from '../../store/deviceSlice';
 import { useParams } from 'react-router-dom';
 
 const DevicePage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
 
-  useEffect(()=>{
+  useEffect(() => {
     if (id) {
-      dispatch(getDeviceByIdThunk(id))
+      dispatch(getDeviceByIdThunk(id));
     }
-  },[id])
+  }, [id, dispatch]);
 
   const device = useAppSelector(selectorSelectedDevice);
 
@@ -32,7 +32,7 @@ const DevicePage: React.FC = () => {
 
   return (
     <>
-      { device &&
+      {device && (
         <>
           <Box my={2} sx={{ textAlign: 'center' }}>
             <Typography gutterBottom variant="h4" component="div" sx={{ fontWeight: 'bold' }}>
@@ -55,7 +55,15 @@ const DevicePage: React.FC = () => {
               />
             </Grid>
 
-            <Grid item xs={12} md={4} display={'flex'} flexDirection={'column'} justifyContent="center" alignItems="center">
+            <Grid
+              item
+              xs={12}
+              md={4}
+              display={'flex'}
+              flexDirection={'column'}
+              justifyContent="center"
+              alignItems="center"
+            >
               <Box
                 display={'flex'}
                 flexDirection={'column'}
@@ -104,8 +112,7 @@ const DevicePage: React.FC = () => {
               </Card>
             </Grid>
           </Grid>
-          {
-            !!device.info.length &&
+          {!!device.info.length && (
             <>
               <Grid my={2} display={'flex'} justifyContent={'center'}>
                 <Typography gutterBottom variant="h4" component="div">
@@ -122,9 +129,9 @@ const DevicePage: React.FC = () => {
                 );
               })}
             </>
-          }
+          )}
         </>
-      }
+      )}
     </>
   );
 };

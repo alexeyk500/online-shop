@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DeviceInfoType } from '../../../../../../types/types';
 import { Button, FormControl, Grid, TextField } from '@mui/material';
 
 type PropsType = {
   deviceInfo: DeviceInfoType;
   deleteDeviceInfo: (id: string) => void;
+  onChangeDeviceInfo: (newInfo: DeviceInfoType) => void;
 };
 
-const DeviceInfoListItem: React.FC<PropsType> = ({ deviceInfo, deleteDeviceInfo }) => {
+const DeviceInfoListItem: React.FC<PropsType> = ({ deviceInfo, deleteDeviceInfo, onChangeDeviceInfo }) => {
   const [title, setTitle] = useState(deviceInfo.title);
   const [description, setDescription] = useState(deviceInfo.description);
 
@@ -22,6 +23,10 @@ const DeviceInfoListItem: React.FC<PropsType> = ({ deviceInfo, deleteDeviceInfo 
   const onClickDeleteDeviceInfo = () => {
     deleteDeviceInfo(deviceInfo.id);
   };
+
+  useEffect(() => {
+    onChangeDeviceInfo({ id: deviceInfo.id, title, description });
+  }, [title, description]);
 
   return (
     <Grid item display={{ md: 'flex' }} width={{ md: '100%' }} mt={{ xs: '0.25rem', md: 0 }}>

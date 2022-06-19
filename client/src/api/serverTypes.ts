@@ -28,3 +28,4 @@ export type GetDevicesServerType = {
   count: number;
   rows: DeviceType[];
 };
+export type CreateNewDeviceServerType = DeviceType

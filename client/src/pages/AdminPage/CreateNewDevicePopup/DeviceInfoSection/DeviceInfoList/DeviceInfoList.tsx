@@ -6,9 +6,10 @@ import DeviceInfoListItem from './DeviceInfoListItem/DeviceInfoListItem';
 type PropsType = {
   deviceInfoList: DeviceInfoType[];
   deleteDeviceInfo: (id: string) => void;
+  onChangeDeviceInfo: (newInfo: DeviceInfoType) => void;
 };
 
-const DeviceInfoList: React.FC<PropsType> = ({ deviceInfoList, deleteDeviceInfo }) => {
+const DeviceInfoList: React.FC<PropsType> = ({ deviceInfoList, deleteDeviceInfo, onChangeDeviceInfo }) => {
   if (deviceInfoList.length === 0) {
     return null;
   }
@@ -25,7 +26,12 @@ const DeviceInfoList: React.FC<PropsType> = ({ deviceInfoList, deleteDeviceInfo 
         {'Характеристики Устройства'}
       </Typography>
       {deviceInfoList.map((deviceInfo) => (
-        <DeviceInfoListItem key={deviceInfo.id} deviceInfo={deviceInfo} deleteDeviceInfo={deleteDeviceInfo} />
+        <DeviceInfoListItem
+          key={deviceInfo.id}
+          deviceInfo={deviceInfo}
+          deleteDeviceInfo={deleteDeviceInfo}
+          onChangeDeviceInfo={onChangeDeviceInfo}
+        />
       ))}
     </Grid>
   );
