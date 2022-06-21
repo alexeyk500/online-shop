@@ -303,6 +303,20 @@ export const getDeviceByIdThunk = createAsyncThunk<GetDeviceByIDServerType, stri
   }
 );
 
+export const deleteDeviceByIdThunk = createAsyncThunk<
+  GetDevicesServerType,
+  { id: string; params: ParamsForGetDevicesServerType },
+  { rejectValue: string }
+>('deviceSlice/deleteDeviceByIdThunk', async ({ id, params }, { rejectWithValue }) => {
+  console.log(id, params);
+  try {
+    await serverApi.deleteDevice(id);
+    return await serverApi.getDevices(params);
+  } catch (e) {
+    return rejectWithValue('Delete Device Error\n' + JSON.stringify((e as AxiosError).response?.data));
+  }
+});
+
 export const devicesSlice = createSlice({
   name: 'devicesSlice',
   initialState,
@@ -329,7 +343,7 @@ export const devicesSlice = createSlice({
         state.isLoading = false;
         state.selectedDevice = { ...action.payload, img: process.env.REACT_APP_BASE_URL + '/' + action.payload.img };
       })
-      .addCase(getDevicesThunk.fulfilled, (state, action) => {
+      .addMatcher(isAnyOf(getDevicesThunk.fulfilled, deleteDeviceByIdThunk.fulfilled), (state, action) => {
         state.isLoading = false;
         state.devices = action.payload.rows.map((item) => {
           return { ...item, img: process.env.REACT_APP_BASE_URL + '/' + item.img };
@@ -358,7 +372,8 @@ export const devicesSlice = createSlice({
           addNewDeviceBrandThunk.pending,
           deleteDeviceBrandThunk.pending,
           getDevicesThunk.pending,
-          getDeviceByIdThunk.pending
+          getDeviceByIdThunk.pending,
+          deleteDeviceByIdThunk.pending
         ),
         (state) => {
           state.isLoading = true;
@@ -373,7 +388,8 @@ export const devicesSlice = createSlice({
           addNewDeviceBrandThunk.rejected,
           deleteDeviceBrandThunk.rejected,
           getDevicesThunk.rejected,
-          getDeviceByIdThunk.rejected
+          getDeviceByIdThunk.rejected,
+          deleteDeviceByIdThunk.rejected
         ),
         (state, action) => {
           state.isLoading = false;

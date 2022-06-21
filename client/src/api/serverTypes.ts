@@ -17,6 +17,7 @@ export type AddNewDeviceBrand = BrandType;
 export type DeleteDeviceBrand = number;
 
 export type GetDeviceByIDServerType = DeviceType;
+export type DeleteDevice = number;
 
 export type ParamsForGetDevicesServerType = {
   typeId?: string | undefined;

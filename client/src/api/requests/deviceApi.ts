@@ -3,6 +3,7 @@ import {
   AddNewDeviceBrand,
   AddNewDeviceType,
   CreateNewDeviceServerType,
+  DeleteDevice,
   DeleteDeviceBrand,
   DeleteDeviceType,
   GetDeviceBrands,
@@ -50,6 +51,10 @@ export const deviceApi = {
   async createNewDevice(data: FormData) {
     console.log('formData = ', Object.fromEntries(data));
     const response = await instanceAxios.post<CreateNewDeviceServerType>('/device', data, addAuthHeader());
+    return response.data;
+  },
+  async deleteDevice(id: string) {
+    const response = await instanceAxios.delete<DeleteDevice>(`/device/${id}`, addAuthHeader());
     return response.data;
   },
 };

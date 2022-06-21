@@ -6,6 +6,7 @@ import {
   addNewDeviceBrandThunk,
   addNewDeviceTapeThunk,
   deleteDeviceBrandThunk,
+  deleteDeviceByIdThunk,
   deleteDeviceTapeThunk,
 } from '../../store/deviceSlice';
 import { useAppDispatch } from '../../utils/hooks';
@@ -85,9 +86,15 @@ const AdminPage: React.FC = () => {
     setIsShowDeleteDevicePopup(true);
   };
 
-  const onCloseShowDeleteDevicePopup = (deviceId: string | undefined) => {
-    console.log('onCloseShowDeleteDevicePopup deviceId = ', deviceId);
-    setIsShowDeleteDevicePopup(false);
+  const onCloseShowDeleteDevicePopup = (
+    deviceId: string | undefined,
+    params?: { typeId?: string; brandId?: string }
+  ) => {
+    if (deviceId) {
+      dispatch(deleteDeviceByIdThunk({ id: deviceId, params: { typeId: params?.typeId, brandId: params?.brandId } }));
+    } else {
+      setIsShowDeleteDevicePopup(false);
+    }
   };
 
   return (

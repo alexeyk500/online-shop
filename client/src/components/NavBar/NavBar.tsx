@@ -47,7 +47,7 @@ const NavBar: React.FC = () => {
             {isAuth ? (
               location.pathname === '/admin' ? (
                 <Button color="inherit" variant="outlined" sx={{ mr: 2 }} onClick={onClickGoMain}>
-                  В магазин
+                  На главную
                 </Button>
               ) : (
                 <>
