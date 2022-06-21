@@ -15,6 +15,8 @@ import {
 } from '../../store/deviceSlice';
 import { BrandType, TypeType } from '../../types/types';
 import DeviceList from './DeviceList/DeviceList';
+import { TOKEN_NAME } from '../../index';
+import { loginUserByToken } from '../../store/userSlice';
 
 const CARDS_ON_PAGE_LIMIT = '5';
 
@@ -26,6 +28,10 @@ const MainPage: React.FC = () => {
   const selectedBrand = useAppSelector(selectorSelectedBrand);
 
   useEffect(() => {
+    const token = localStorage.getItem(TOKEN_NAME);
+    if (token) {
+      dispatch(loginUserByToken(token));
+    }
     dispatch(getDevicesTapesThunk());
     dispatch(getDevicesBrandsThunk());
     // eslint-disable-next-line

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Grid, Stack } from '@mui/material';
+import { Button, Card, CardContent, Divider, Grid, Stack, Typography } from '@mui/material';
 import CreateTypeBrandPopUp from './CreateTypeBrandPopUp/CreateTypeBrandPopUp';
 import CreateNewDevicePopup, { PopupDeviceType } from './CreateNewDevicePopup/CreateNewDevicePopup';
 import {
@@ -9,7 +9,8 @@ import {
   deleteDeviceTapeThunk,
 } from '../../store/deviceSlice';
 import { useAppDispatch } from '../../utils/hooks';
-import {serverApi} from "../../api/serverApi";
+import { serverApi } from '../../api/serverApi';
+import DeleteDevicePopup from './DeleteDevicePopup/DeleteDevicePopup';
 
 export enum TypePopupEnum {
   typePopup = 'typePopup',
@@ -19,7 +20,8 @@ export enum TypePopupEnum {
 const AdminPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const [typePopup, setTypePopup] = useState<TypePopupEnum | undefined>(undefined);
-  const [isShowDevicePopup, SetIsShowDevicePopup] = useState<boolean>(false);
+  const [isShowDevicePopup, setIsShowDevicePopup] = useState<boolean>(false);
+  const [isShowDeleteDevicePopup, setIsShowDeleteDevicePopup] = useState<boolean>(false);
 
   const onClickCreateNewType = () => {
     setTypePopup(TypePopupEnum.typePopup);
@@ -54,43 +56,102 @@ const AdminPage: React.FC = () => {
   };
 
   const onClickShowDevicePopup = () => {
-    SetIsShowDevicePopup(true);
+    setIsShowDevicePopup(true);
+  };
+
+  const onClickEditDevicePopup = () => {
+    console.log('Will edit device');
   };
 
   const addNewDevice = (device: PopupDeviceType) => {
     const formData = new FormData();
-    device.name && formData.append('name', device.name)
-    device.price && formData.append('price', device.price)
-    device.file && formData.append('img', device.file)
-    device.brandId && formData.append('brandId', device.brandId)
-    device.typeId && formData.append('typeId', device.typeId)
-    device.info && formData.append('info', JSON.stringify(device.info))
-    // new Response(formData).text().then(console.log)
-    return serverApi.createNewDevice(formData)
-  }
+    device.name && formData.append('name', device.name);
+    device.price && formData.append('price', device.price);
+    device.file && formData.append('img', device.file);
+    device.brandId && formData.append('brandId', device.brandId);
+    device.typeId && formData.append('typeId', device.typeId);
+    device.info && formData.append('info', JSON.stringify(device.info));
+    return serverApi.createNewDevice(formData);
+  };
 
   const onCloseDevicePopup = async (device: PopupDeviceType | undefined) => {
     if (device) {
-      console.log('onCloseDevicePopup = ', device);
-      const newDevice = await addNewDevice(device);
-      console.log('newDevice =', newDevice)
+      await addNewDevice(device);
     }
-    SetIsShowDevicePopup(false);
+    setIsShowDevicePopup(false);
+  };
+
+  const onClickShowDeleteDevicePopup = () => {
+    setIsShowDeleteDevicePopup(true);
+  };
+
+  const onCloseShowDeleteDevicePopup = (deviceId: string | undefined) => {
+    console.log('onCloseShowDeleteDevicePopup deviceId = ', deviceId);
+    setIsShowDeleteDevicePopup(false);
   };
 
   return (
     <Grid sx={{ display: 'flex', justifyContent: 'center' }}>
       <Grid item md={4} sx={{ display: 'flex', justifyContent: 'center' }}>
         <Stack direction="column">
-          <Button variant="text" sx={{ marginTop: '3rem' }} onClick={onClickCreateNewType}>
-            Управление Типами
-          </Button>
-          <Button variant="text" sx={{ marginTop: '3rem' }} onClick={onClickCreateNewBrand}>
-            Управление Брендами
-          </Button>
-          <Button variant="text" sx={{ marginTop: '3rem' }} onClick={onClickShowDevicePopup}>
-            Управление Устройствами
-          </Button>
+          <Card
+            sx={{
+              margin: '3rem 0 1.5rem 0',
+              padding: 2,
+              boxShadow: 5,
+              borderRadius: '6px',
+              alignItems: 'center',
+              textAlign: 'center',
+            }}
+          >
+            <Button variant="text" sx={{ margin: '2rem 0' }} onClick={onClickCreateNewType}>
+              Управление Типами
+            </Button>
+          </Card>
+          <Card
+            sx={{
+              margin: '1.5rem 0',
+              padding: 2,
+              boxShadow: 5,
+              borderRadius: '6px',
+              alignItems: 'center',
+              textAlign: 'center',
+            }}
+          >
+            <Button variant="text" sx={{ margin: '2rem 0' }} onClick={onClickCreateNewBrand}>
+              Управление Брендами
+            </Button>
+          </Card>
+          <Card
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              margin: '1.5rem 0',
+              padding: 2,
+              boxShadow: 5,
+              borderRadius: '6px',
+              alignItems: 'center',
+              textAlign: 'center',
+            }}
+          >
+            <CardContent>
+              <Typography gutterBottom variant="h6" component="div" color="primary">
+                Управление Устройствами
+              </Typography>
+              <Divider />
+              <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Button variant="text" sx={{ margin: '1rem 0 0.5rem 0' }} onClick={onClickShowDevicePopup}>
+                  Добавить Устройство
+                </Button>
+                <Button variant="text" sx={{ margin: '0.5rem 0' }} onClick={onClickEditDevicePopup}>
+                  Редактировать Устройство
+                </Button>
+                <Button variant="text" sx={{ marginTop: '0.5rem' }} onClick={onClickShowDeleteDevicePopup}>
+                  Удалить Устройство
+                </Button>
+              </Grid>
+            </CardContent>
+          </Card>
         </Stack>
       </Grid>
       <CreateTypeBrandPopUp
@@ -100,6 +161,7 @@ const AdminPage: React.FC = () => {
         onDeleteItem={onDeleteItemTypeBrand}
       />
       <CreateNewDevicePopup isShow={isShowDevicePopup} onClose={onCloseDevicePopup} />
+      <DeleteDevicePopup isOpen={isShowDeleteDevicePopup} onClosePopup={onCloseShowDeleteDevicePopup} />
     </Grid>
   );
 };

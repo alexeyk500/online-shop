@@ -1,3 +1,8 @@
+export type UserType = {
+  email: string;
+  role: string;
+};
+
 export type TypeType = {
   id: string;
   name: string;

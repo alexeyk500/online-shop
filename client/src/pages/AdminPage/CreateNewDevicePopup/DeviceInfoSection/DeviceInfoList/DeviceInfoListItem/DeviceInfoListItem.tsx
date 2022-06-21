@@ -26,6 +26,7 @@ const DeviceInfoListItem: React.FC<PropsType> = ({ deviceInfo, deleteDeviceInfo,
 
   useEffect(() => {
     onChangeDeviceInfo({ id: deviceInfo.id, title, description });
+    // eslint-disable-next-line
   }, [title, description]);
 
   return (

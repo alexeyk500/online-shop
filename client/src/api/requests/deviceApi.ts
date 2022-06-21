@@ -1,7 +1,8 @@
 import { instanceAxios, addAuthHeader } from '../instanceAxios';
 import {
   AddNewDeviceBrand,
-  AddNewDeviceType, CreateNewDeviceServerType,
+  AddNewDeviceType,
+  CreateNewDeviceServerType,
   DeleteDeviceBrand,
   DeleteDeviceType,
   GetDeviceBrands,
@@ -47,7 +48,7 @@ export const deviceApi = {
     return response.data;
   },
   async createNewDevice(data: FormData) {
-    console.log('formData = ', Object.fromEntries(data))
+    console.log('formData = ', Object.fromEntries(data));
     const response = await instanceAxios.post<CreateNewDeviceServerType>('/device', data, addAuthHeader());
     return response.data;
   },

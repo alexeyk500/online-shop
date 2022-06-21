@@ -16,20 +16,6 @@ const DevicePage: React.FC = () => {
 
   const device = useAppSelector(selectorSelectedDevice);
 
-  console.log('id =', id);
-  console.log('device =', device);
-
-  // const descriptions = [
-  //   { id: 1, title: 'Оперативная память', description: '5 гб.' },
-  //   { id: 2, title: 'Видео память', description: '2 гб.' },
-  //   { id: 3, title: 'Количество ядер процессора', description: '4' },
-  //   { id: 4, title: 'Производитель', description: 'Apple' },
-  //   { id: 5, title: 'Оперативная память', description: '5 гб.' },
-  //   { id: 6, title: 'Видео память', description: '2 гб.' },
-  //   { id: 7, title: 'Количество ядер процессора', description: '4' },
-  //   { id: 8, title: 'Производитель', description: 'Apple' },
-  // ];
-
   return (
     <>
       {device && (
