@@ -8,9 +8,11 @@ import SelectTypeSection from './SelectTypeSection/SelectTypeSection';
 import SelectBrandSection from './SelectBrandSection/SelectBrandSection';
 import DeviceNameSection from './DeviceNameSection/DeviceNameSection';
 import DevicePriceSection from './DevicePriceSection/DevicePriceSection';
+import {getDeviceByIdThunk, selectorSelectedDevice} from "../../../store/deviceSlice";
+import {useAppDispatch, useAppSelector} from "../../../utils/hooks";
 
 type PropsType = {
-  isShow: boolean;
+  isShowDeviceId: string | undefined;
   onClose: (device: PopupDeviceType | undefined) => void;
 };
 
@@ -32,12 +34,22 @@ const getNewDevice = (): PopupDeviceType => {
   };
 };
 
-const CreateNewDevicePopup: React.FC<PropsType> = ({ isShow, onClose }) => {
+const CreateNewDevicePopup: React.FC<PropsType> = ({ isShowDeviceId, onClose }) => {
+  const dispatch = useAppDispatch();
+  const selectedDevice = useAppSelector(selectorSelectedDevice);
+
   const [device, setDevice] = useState(getNewDevice());
 
   useEffect(() => {
-    setDevice(getNewDevice());
-  }, [isShow]);
+    if (isShowDeviceId === '-1') {
+      setDevice(getNewDevice());
+    } else {
+      if (isShowDeviceId) {
+        dispatch(getDeviceByIdThunk(isShowDeviceId));
+        setDevice(getNewDevice());
+      }
+    }
+  }, [isShowDeviceId]);
 
   const onClickConfirm = () => {
     onClose(device);
@@ -59,9 +71,41 @@ const CreateNewDevicePopup: React.FC<PropsType> = ({ isShow, onClose }) => {
     );
   };
 
+  useEffect(()=>{
+    console.log('selectedDevice =', selectedDevice)
+    if (selectedDevice) {
+      // setDevice({
+      //   brandId: selectedDevice.brandId,
+      //   file: undefined,
+      //   id: selectedDevice.id,
+      //   img: undefined,
+      //   info: selectedDevice.info,
+      //   name: selectedDevice.name,
+      //   price: selectedDevice.price,
+      //   rating: selectedDevice.rating,
+      //   typeId: selectedDevice.typeId
+      // })
+      console.log('selectedDevice - changed')
+      setDevice({
+        id: selectedDevice.id,
+        brandId: selectedDevice.brandId,
+        typeId: selectedDevice.typeId,
+        name: selectedDevice.name,
+        price: selectedDevice.price,
+        rating: selectedDevice.rating,
+        file: undefined,
+        img: undefined,
+        info: selectedDevice.info,
+      })
+    }
+
+  }, [selectedDevice])
+
   return (
-    <Dialog maxWidth={'md'} open={isShow} onClose={onClickCancel}>
-      <DialogTitle width={'70vw'}>{`Панель добавления нового устройства`}</DialogTitle>
+    <Dialog maxWidth={'md'} open={!!isShowDeviceId} onClose={onClickCancel}>
+      <DialogTitle width={'70vw'}>
+        {isShowDeviceId === '-1' ?`Панель добавления нового устройства` : `Панель редактирования устройства`}
+      </DialogTitle>
       <DialogContent>
         <SelectTypeSection device={device} setDevice={setDevice} />
         <SelectBrandSection device={device} setDevice={setDevice} />
@@ -75,7 +119,9 @@ const CreateNewDevicePopup: React.FC<PropsType> = ({ isShow, onClose }) => {
           Отмена
         </Button>
         <Button color="success" onClick={onClickConfirm} disabled={!isFormFullFilled()}>
-          Создать
+          {
+            isShowDeviceId === '-1' ? 'Создать' : 'Редактировать'
+          }
         </Button>
       </DialogActions>
     </Dialog>

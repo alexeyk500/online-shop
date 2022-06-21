@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Grid, Typography } from '@mui/material';
 import { DeviceInfoType } from '../../../../../types/types';
 import DeviceInfoListItem from './DeviceInfoListItem/DeviceInfoListItem';
@@ -10,9 +10,17 @@ type PropsType = {
 };
 
 const DeviceInfoList: React.FC<PropsType> = ({ deviceInfoList, deleteDeviceInfo, onChangeDeviceInfo }) => {
-  if (deviceInfoList.length === 0) {
-    return null;
-  }
+  // if (deviceInfoList.length === 0) {
+  //   return null;
+  // }
+
+  const [list, setList] = useState<DeviceInfoType[]>([])
+  useEffect(()=>{
+    console.log('useEffect setList' )
+    setList([...deviceInfoList])
+  }, [deviceInfoList])
+
+  // console.log('deviceInfoList =========', deviceInfoList)
   return (
     <Grid
       item
@@ -25,7 +33,8 @@ const DeviceInfoList: React.FC<PropsType> = ({ deviceInfoList, deleteDeviceInfo,
       <Typography variant="h6" component="div" textAlign={'center'} color={'text.secondary'}>
         {'Характеристики Устройства'}
       </Typography>
-      {deviceInfoList.map((deviceInfo) => (
+      {list.map((deviceInfo) => (
+        // <div>{deviceInfo.id}</div>
         <DeviceInfoListItem
           key={deviceInfo.id}
           deviceInfo={deviceInfo}

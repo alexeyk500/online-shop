@@ -23,14 +23,23 @@ const DeviceInfoSection: React.FC<PropsType> = ({ device, setDevice }) => {
   };
 
   const onChangeDeviceInfo = (newInfo: DeviceInfoType) => {
-    const newDevice = { ...device };
-    const infoInd = device.info.findIndex((deviceInfo) => deviceInfo.id === newInfo.id);
+    // const newDevice = { ...device };
+    console.log('onChangeDeviceInfo')
+    // console.log('newDeviceInfo =', newDeviceInfo)
+    const infoInd = device.info.findIndex(deviceInfo => deviceInfo.id === newInfo.id);
+    console.log('infoInd =', infoInd)
+
     if (infoInd > -1) {
-      newDevice.info[infoInd] = newInfo;
+      const newDeviceInfo = {...device.info}
+      newDeviceInfo[infoInd] = newInfo
+      console.log('newDeviceInfo =', newInfo)
+      const newDevice = { ...device, info: newDeviceInfo }
+      console.log('newDevice =', newDevice)
       setDevice(newDevice);
     }
   };
 
+  console.log('deviceInfoList=', device.info)
   return (
     <>
       <DeviceInfoList

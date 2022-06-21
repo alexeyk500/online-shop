@@ -11,18 +11,36 @@ import {
 } from '../../store/deviceSlice';
 import { useAppDispatch } from '../../utils/hooks';
 import { serverApi } from '../../api/serverApi';
-import DeleteDevicePopup from './DeleteDevicePopup/DeleteDevicePopup';
+import EditOrDeleteDevicePopup from './EditOrDeleteDevicePopup/EditOrDeleteDevicePopup';
 
 export enum TypePopupEnum {
   typePopup = 'typePopup',
   brandPopup = 'brandPopup',
 }
 
+export enum EditOrDeleteDevicePopupEnum {
+  editPopup = 'editPopup',
+  deletePopup = 'deletedPopup',
+}
+
+const addNewDevice = (device: PopupDeviceType) => {
+  const formData = new FormData();
+  device.name && formData.append('name', device.name);
+  device.price && formData.append('price', device.price);
+  device.file && formData.append('img', device.file);
+  device.brandId && formData.append('brandId', device.brandId);
+  device.typeId && formData.append('typeId', device.typeId);
+  device.info && formData.append('info', JSON.stringify(device.info));
+  return serverApi.createNewDevice(formData);
+};
+
 const AdminPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const [typePopup, setTypePopup] = useState<TypePopupEnum | undefined>(undefined);
-  const [isShowDevicePopup, setIsShowDevicePopup] = useState<boolean>(false);
-  const [isShowDeleteDevicePopup, setIsShowDeleteDevicePopup] = useState<boolean>(false);
+  const [isShowDevicePopup, setIsShowDevicePopup] = useState<string | undefined>(undefined);
+  const [isShowEditOrDeleteDevicePopup, setIsShowEditOrDeleteDevicePopup] = useState<
+    EditOrDeleteDevicePopupEnum | undefined
+  >(undefined);
 
   const onClickCreateNewType = () => {
     setTypePopup(TypePopupEnum.typePopup);
@@ -56,45 +74,44 @@ const AdminPage: React.FC = () => {
     }
   };
 
-  const onClickShowDevicePopup = () => {
-    setIsShowDevicePopup(true);
-  };
-
-  const onClickEditDevicePopup = () => {
-    console.log('Will edit device');
-  };
-
-  const addNewDevice = (device: PopupDeviceType) => {
-    const formData = new FormData();
-    device.name && formData.append('name', device.name);
-    device.price && formData.append('price', device.price);
-    device.file && formData.append('img', device.file);
-    device.brandId && formData.append('brandId', device.brandId);
-    device.typeId && formData.append('typeId', device.typeId);
-    device.info && formData.append('info', JSON.stringify(device.info));
-    return serverApi.createNewDevice(formData);
+  const onClickAddNewDevice = () => {
+    setIsShowDevicePopup('-1');
   };
 
   const onCloseDevicePopup = async (device: PopupDeviceType | undefined) => {
     if (device) {
       await addNewDevice(device);
     }
-    setIsShowDevicePopup(false);
+    setIsShowDevicePopup(undefined);
   };
 
   const onClickShowDeleteDevicePopup = () => {
-    setIsShowDeleteDevicePopup(true);
+    setIsShowEditOrDeleteDevicePopup(EditOrDeleteDevicePopupEnum.deletePopup);
   };
 
   const onCloseShowDeleteDevicePopup = (
     deviceId: string | undefined,
     params?: { typeId?: string; brandId?: string }
   ) => {
-    if (deviceId) {
-      dispatch(deleteDeviceByIdThunk({ id: deviceId, params: { typeId: params?.typeId, brandId: params?.brandId } }));
+    if (isShowEditOrDeleteDevicePopup === EditOrDeleteDevicePopupEnum.editPopup) {
+      if (deviceId) {
+        console.log('will edit device Thunk deviceId =', deviceId)
+        setIsShowDevicePopup(deviceId);
+      } else {
+        setIsShowEditOrDeleteDevicePopup(undefined);
+      }
     } else {
-      setIsShowDeleteDevicePopup(false);
+      if (deviceId) {
+        dispatch(deleteDeviceByIdThunk({ id: deviceId, params: { typeId: params?.typeId, brandId: params?.brandId } }));
+      } else {
+        setIsShowEditOrDeleteDevicePopup(undefined);
+      }
     }
+
+  };
+
+  const onClickEditDevicePopup = () => {
+    setIsShowEditOrDeleteDevicePopup(EditOrDeleteDevicePopupEnum.editPopup);
   };
 
   return (
@@ -147,7 +164,7 @@ const AdminPage: React.FC = () => {
               </Typography>
               <Divider />
               <Grid item sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Button variant="text" sx={{ margin: '1rem 0 0.5rem 0' }} onClick={onClickShowDevicePopup}>
+                <Button variant="text" sx={{ margin: '1rem 0 0.5rem 0' }} onClick={onClickAddNewDevice}>
                   Добавить Устройство
                 </Button>
                 <Button variant="text" sx={{ margin: '0.5rem 0' }} onClick={onClickEditDevicePopup}>
@@ -167,8 +184,12 @@ const AdminPage: React.FC = () => {
         onAddNewItem={onAddNewItemTypeBrand}
         onDeleteItem={onDeleteItemTypeBrand}
       />
-      <CreateNewDevicePopup isShow={isShowDevicePopup} onClose={onCloseDevicePopup} />
-      <DeleteDevicePopup isOpen={isShowDeleteDevicePopup} onClosePopup={onCloseShowDeleteDevicePopup} />
+      <CreateNewDevicePopup isShowDeviceId={isShowDevicePopup} onClose={onCloseDevicePopup} />
+      <EditOrDeleteDevicePopup
+        isOpen={!!isShowEditOrDeleteDevicePopup}
+        onClosePopup={onCloseShowDeleteDevicePopup}
+        isEditPopUp={isShowEditOrDeleteDevicePopup === EditOrDeleteDevicePopupEnum.editPopup}
+      />
     </Grid>
   );
 };

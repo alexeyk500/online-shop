@@ -12,14 +12,15 @@ import {
 } from '../../../store/deviceSlice';
 import BrandTypeBar from '../../MainPage/BrandTypeBar/BrandTypeBar';
 import { BrandType, TypeType } from '../../../types/types';
-import DeleteDevicesList from './DeleteDevicesList/DeleteDevicesList';
+import EditOrDeleteDevicesList from './EditOrDeleteDevicesList/EditOrDeleteDevicesList';
 
 type PropsType = {
   isOpen: boolean;
   onClosePopup: (deviceId: string | undefined, params?: { typeId?: string; brandId?: string }) => void;
+  isEditPopUp?: boolean;
 };
 
-const DeleteDevicePopup: React.FC<PropsType> = ({ isOpen, onClosePopup }) => {
+const EditOrDeleteDevicePopup: React.FC<PropsType> = ({ isOpen, isEditPopUp, onClosePopup }) => {
   const dispatch = useAppDispatch();
   const types = useAppSelector(selectorTypes);
   const selectedType = useAppSelector(selectorSelectedType);
@@ -47,10 +48,14 @@ const DeleteDevicePopup: React.FC<PropsType> = ({ isOpen, onClosePopup }) => {
     onClosePopup(undefined);
   };
 
-  const onClickDeleteDevice = (deviceId: string) => {
-    const isDelete = window.confirm('Удалить устройсво?');
-    if (isDelete) {
-      onClosePopup(deviceId, { typeId: selectedType?.id, brandId: selectedBrand?.id });
+  const onClickEditOrDeleteDevice = (deviceId: string) => {
+    if (isEditPopUp) {
+      onClosePopup(deviceId)
+    } else {
+      const isDelete = window.confirm('Удалить устройсво?');
+      if (isDelete) {
+        onClosePopup(deviceId, { typeId: selectedType?.id, brandId: selectedBrand?.id });
+      }
     }
   };
 
@@ -58,7 +63,7 @@ const DeleteDevicePopup: React.FC<PropsType> = ({ isOpen, onClosePopup }) => {
     <Dialog open={isOpen} onClose={onClickCancel} PaperProps={{ sx: { width: '80%', maxHeight: '80%' } }}>
       <DialogTitle>
         <Typography gutterBottom variant="h6" component="div" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-          Панель удаления устройств
+          {isEditPopUp ? 'Панель редактирования устройств' : 'Панель удаления устройств'}
         </Typography>
       </DialogTitle>
       <DialogContent>
@@ -90,7 +95,7 @@ const DeleteDevicePopup: React.FC<PropsType> = ({ isOpen, onClosePopup }) => {
             md={6}
             sx={{ paddingRight: { xs: 0, md: '16px' }, maxHeight: '60vh', overflowY: { md: 'scroll' } }}
           >
-            <DeleteDevicesList onClickDeleteDevice={onClickDeleteDevice} />
+            <EditOrDeleteDevicesList onClickEditOrDeleteDevice={onClickEditOrDeleteDevice} isEditPopUp={isEditPopUp} />
           </Grid>
         </Grid>
       </DialogContent>
@@ -103,4 +108,4 @@ const DeleteDevicePopup: React.FC<PropsType> = ({ isOpen, onClosePopup }) => {
   );
 };
 
-export default DeleteDevicePopup;
+export default EditOrDeleteDevicePopup;

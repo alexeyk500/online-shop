@@ -4,12 +4,13 @@ import { Box, Button, Card, CardContent, CardMedia, Typography } from '@mui/mate
 
 type PropsType = {
   device: DeviceType;
-  onClickDeleteDevice: (deviceId: string) => void;
+  onClickEditOrDeleteDevice: (deviceId: string) => void;
+  isEditPopUp?: boolean;
 };
 
-const DeleteDeviceListItem: React.FC<PropsType> = ({ device, onClickDeleteDevice }) => {
+const EditOrDeleteDeviceListItem: React.FC<PropsType> = ({ device, onClickEditOrDeleteDevice, isEditPopUp }) => {
   const onClickDelete = () => {
-    onClickDeleteDevice(device.id);
+    onClickEditOrDeleteDevice(device.id);
   };
 
   return (
@@ -41,25 +42,13 @@ const DeleteDeviceListItem: React.FC<PropsType> = ({ device, onClickDeleteDevice
           </Typography>
         </Box>
         <Box component={'div'} sx={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center' }}>
-          <Button variant={'outlined'} color="error" size="small" onClick={onClickDelete}>
-            Удалить
+          <Button variant={'outlined'} color={isEditPopUp ? 'primary' :'error'} size="small" onClick={onClickDelete}>
+            {isEditPopUp ? 'Редактировать' : 'Удалить'}
           </Button>
         </Box>
       </CardContent>
-      {/*<CardActions sx={{ display: 'flex', flexDirection: 'column' }}>*/}
-      {/*  <Box*/}
-      {/*    component={'div'}*/}
-      {/*    sx={{ display: 'flex', flexDirection: 'column', width: '100%', marginBottom: '0.5rem', alignItems: 'start' }}*/}
-      {/*  >*/}
-      {/*    <Box component={'div'} sx={{ display: 'flex', width: '100%', justifyContent: 'center' }}>*/}
-      {/*      <Button variant={'outlined'} color="error" size="small" sx={{ display: 'flex', marginRight: '1rem' }}>*/}
-      {/*        Удалить*/}
-      {/*      </Button>*/}
-      {/*    </Box>*/}
-      {/*  </Box>*/}
-      {/*</CardActions>*/}
     </Card>
   );
 };
 
-export default DeleteDeviceListItem;
+export default EditOrDeleteDeviceListItem;
