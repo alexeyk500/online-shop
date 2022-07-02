@@ -1,10 +1,10 @@
 import React from 'react';
-import { PopupDeviceType } from '../CreateNewDevicePopup';
 import { FormControl, Grid, TextField } from '@mui/material';
+import { DeviceType } from '../../../../types/types';
 
 type PropsType = {
-  device: PopupDeviceType;
-  setDevice: (device: PopupDeviceType) => void;
+  device: DeviceType;
+  setDevice: (device: DeviceType) => void;
 };
 
 const DeviceNameSection: React.FC<PropsType> = ({ device, setDevice }) => {

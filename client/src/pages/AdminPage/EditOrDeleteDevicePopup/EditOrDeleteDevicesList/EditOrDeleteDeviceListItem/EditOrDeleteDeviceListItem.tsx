@@ -42,7 +42,7 @@ const EditOrDeleteDeviceListItem: React.FC<PropsType> = ({ device, onClickEditOr
           </Typography>
         </Box>
         <Box component={'div'} sx={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center' }}>
-          <Button variant={'outlined'} color={isEditPopUp ? 'primary' :'error'} size="small" onClick={onClickDelete}>
+          <Button variant={'outlined'} color={isEditPopUp ? 'primary' : 'error'} size="small" onClick={onClickDelete}>
             {isEditPopUp ? 'Редактировать' : 'Удалить'}
           </Button>
         </Box>

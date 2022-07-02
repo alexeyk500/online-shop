@@ -1,12 +1,11 @@
 import React from 'react';
 import DeviceInfoList from './DeviceInfoList/DeviceInfoList';
 import { Button, Grid } from '@mui/material';
-import { PopupDeviceType } from '../CreateNewDevicePopup';
-import { DeviceInfoType } from '../../../../types/types';
+import { DeviceInfoType, DeviceType } from '../../../../types/types';
 
 type PropsType = {
-  device: PopupDeviceType;
-  setDevice: (device: PopupDeviceType) => void;
+  device: DeviceType;
+  setDevice: (device: DeviceType) => void;
 };
 
 const DeviceInfoSection: React.FC<PropsType> = ({ device, setDevice }) => {
@@ -23,23 +22,17 @@ const DeviceInfoSection: React.FC<PropsType> = ({ device, setDevice }) => {
   };
 
   const onChangeDeviceInfo = (newInfo: DeviceInfoType) => {
-    // const newDevice = { ...device };
-    console.log('onChangeDeviceInfo')
-    // console.log('newDeviceInfo =', newDeviceInfo)
-    const infoInd = device.info.findIndex(deviceInfo => deviceInfo.id === newInfo.id);
-    console.log('infoInd =', infoInd)
-
+    const infoInd = device.info.findIndex((deviceInfo) => deviceInfo.id === newInfo.id);
     if (infoInd > -1) {
-      const newDeviceInfo = {...device.info}
-      newDeviceInfo[infoInd] = newInfo
-      console.log('newDeviceInfo =', newInfo)
-      const newDevice = { ...device, info: newDeviceInfo }
-      console.log('newDevice =', newDevice)
+      const newDeviceInfo = device.info.map((inf) => {
+        return { id: inf.id, title: inf.title, description: inf.description };
+      });
+      newDeviceInfo[infoInd] = newInfo;
+      const newDevice = { ...device, info: newDeviceInfo };
       setDevice(newDevice);
     }
   };
 
-  console.log('deviceInfoList=', device.info)
   return (
     <>
       <DeviceInfoList

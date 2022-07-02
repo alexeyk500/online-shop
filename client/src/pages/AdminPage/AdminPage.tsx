@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Card, CardContent, Divider, Grid, Stack, Typography } from '@mui/material';
 import CreateTypeBrandPopUp from './CreateTypeBrandPopUp/CreateTypeBrandPopUp';
-import CreateNewDevicePopup, { PopupDeviceType } from './CreateNewDevicePopup/CreateNewDevicePopup';
+import CreateNewDevicePopup from './CreateNewDevicePopup/CreateNewDevicePopup';
 import {
   addNewDeviceBrandThunk,
   addNewDeviceTapeThunk,
@@ -12,6 +12,7 @@ import {
 import { useAppDispatch } from '../../utils/hooks';
 import { serverApi } from '../../api/serverApi';
 import EditOrDeleteDevicePopup from './EditOrDeleteDevicePopup/EditOrDeleteDevicePopup';
+import { DeviceType } from '../../types/types';
 
 export enum TypePopupEnum {
   typePopup = 'typePopup',
@@ -23,14 +24,14 @@ export enum EditOrDeleteDevicePopupEnum {
   deletePopup = 'deletedPopup',
 }
 
-const addNewDevice = (device: PopupDeviceType) => {
+const addNewDevice = (device: DeviceType, file: File) => {
   const formData = new FormData();
   device.name && formData.append('name', device.name);
   device.price && formData.append('price', device.price);
-  device.file && formData.append('img', device.file);
   device.brandId && formData.append('brandId', device.brandId);
   device.typeId && formData.append('typeId', device.typeId);
   device.info && formData.append('info', JSON.stringify(device.info));
+  file && formData.append('img', file);
   return serverApi.createNewDevice(formData);
 };
 
@@ -78,9 +79,13 @@ const AdminPage: React.FC = () => {
     setIsShowDevicePopup('-1');
   };
 
-  const onCloseDevicePopup = async (device: PopupDeviceType | undefined) => {
-    if (device) {
-      await addNewDevice(device);
+  const onCloseDevicePopup = async (device: DeviceType | undefined, file: File | undefined) => {
+    if (device && file) {
+      if (device.id === '-1') {
+        await addNewDevice(device, file);
+      } else {
+        console.log('will edit device');
+      }
     }
     setIsShowDevicePopup(undefined);
   };
@@ -95,7 +100,7 @@ const AdminPage: React.FC = () => {
   ) => {
     if (isShowEditOrDeleteDevicePopup === EditOrDeleteDevicePopupEnum.editPopup) {
       if (deviceId) {
-        console.log('will edit device Thunk deviceId =', deviceId)
+        console.log('will edit device Thunk deviceId =', deviceId);
         setIsShowDevicePopup(deviceId);
       } else {
         setIsShowEditOrDeleteDevicePopup(undefined);
@@ -107,7 +112,6 @@ const AdminPage: React.FC = () => {
         setIsShowEditOrDeleteDevicePopup(undefined);
       }
     }
-
   };
 
   const onClickEditDevicePopup = () => {

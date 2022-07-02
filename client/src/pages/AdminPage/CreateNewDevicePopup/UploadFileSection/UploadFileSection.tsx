@@ -1,30 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, FormControl, Grid, Typography } from '@mui/material';
-import { PopupDeviceType } from '../CreateNewDevicePopup';
 
 type PropsType = {
-  device: PopupDeviceType;
-  setDevice: (device: PopupDeviceType) => void;
+  imgFile: File | undefined;
+  setImgFile: (imgFile: File | undefined) => void;
 };
 
-const UploadFileSection: React.FC<PropsType> = ({ device, setDevice }) => {
+const UploadFileSection: React.FC<PropsType> = ({ imgFile, setImgFile }) => {
   const [fileDataURL, setFileDataURL] = useState<string | undefined>(undefined);
 
-  const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newDevice = { ...device };
-    if (e.target.files) {
+  useEffect(() => {
+    if (imgFile) {
       const reader = new FileReader();
       reader.onloadend = function () {
         const result = reader.result;
         setFileDataURL(result ? (result as string) : undefined);
       };
-      reader.readAsDataURL(e.target.files[0]);
-      newDevice.file = e.target.files[0];
-    } else {
-      setFileDataURL(undefined);
-      newDevice.file = undefined;
+      reader.readAsDataURL(imgFile);
     }
-    setDevice(newDevice);
+  }, [imgFile]);
+
+  const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImgFile(e.target.files[0]);
+    } else {
+      setImgFile(undefined);
+    }
   };
 
   return (
@@ -38,7 +39,7 @@ const UploadFileSection: React.FC<PropsType> = ({ device, setDevice }) => {
           justifyContent={'start'}
           sx={{ alignItems: 'center' }}
         >
-          {device.file ? (
+          {imgFile ? (
             <>
               <Grid item xs={6} md={4}>
                 <Box
@@ -67,7 +68,7 @@ const UploadFileSection: React.FC<PropsType> = ({ device, setDevice }) => {
                   textAlign={{ xs: 'center', md: 'start' }}
                   width={'100%'}
                 >
-                  {device.file.name}
+                  {imgFile.name}
                 </Typography>
               </Grid>
             </>
@@ -87,12 +88,12 @@ const UploadFileSection: React.FC<PropsType> = ({ device, setDevice }) => {
           )}
           <Grid
             item
-            xs={device.file ? 12 : 6}
+            xs={imgFile ? 12 : 6}
             md={3}
             display={'flex'}
             width={'100%'}
-            justifyContent={{ xs: 'center', md: device.file ? 'center' : 'start' }}
-            mt={{ xs: device.file ? '1rem' : '0', md: '0' }}
+            justifyContent={{ xs: 'center', md: imgFile ? 'center' : 'start' }}
+            mt={{ xs: imgFile ? '1rem' : '0', md: '0' }}
           >
             <input
               accept="image/*"
@@ -103,7 +104,7 @@ const UploadFileSection: React.FC<PropsType> = ({ device, setDevice }) => {
             />
             <label htmlFor="raised-button-file">
               <Button variant={'outlined'} component="span" sx={{ textAlign: 'center' }}>
-                {device.file ? 'Заменить файл' : 'Загрузить Файл'}
+                {imgFile ? 'Заменить файл' : 'Загрузить Файл'}
               </Button>
             </label>
           </Grid>

@@ -50,7 +50,7 @@ const EditOrDeleteDevicePopup: React.FC<PropsType> = ({ isOpen, isEditPopUp, onC
 
   const onClickEditOrDeleteDevice = (deviceId: string) => {
     if (isEditPopUp) {
-      onClosePopup(deviceId)
+      onClosePopup(deviceId);
     } else {
       const isDelete = window.confirm('Удалить устройсво?');
       if (isDelete) {

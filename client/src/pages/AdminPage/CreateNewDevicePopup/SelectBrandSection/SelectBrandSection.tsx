@@ -1,12 +1,12 @@
 import React from 'react';
 import { FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import { PopupDeviceType } from '../CreateNewDevicePopup';
 import { useAppSelector } from '../../../../utils/hooks';
 import { selectorBrands } from '../../../../store/deviceSlice';
+import { DeviceType } from '../../../../types/types';
 
 type PropsType = {
-  device: PopupDeviceType;
-  setDevice: (device: PopupDeviceType) => void;
+  device: DeviceType;
+  setDevice: (device: DeviceType) => void;
 };
 
 const SelectBrandSection: React.FC<PropsType> = ({ device, setDevice }) => {
